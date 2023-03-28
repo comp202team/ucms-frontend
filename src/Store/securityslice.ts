@@ -11,7 +11,7 @@ const initialState = {
     err:"",
 };
 
-const securitySlice = createSlice({
+export const securitySlice = createSlice({
     name:"security",
     initialState,
     reducers: {},
