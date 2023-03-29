@@ -21,3 +21,5 @@ const securitySlice = createSlice({
         // })
     }
 })
+
+export default securitySlice.reducer;
