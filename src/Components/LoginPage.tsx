@@ -1,78 +1,67 @@
-import React, { useState } from 'react';
-import { makeStyles } from '@mui/styles';
-import { TextField, Button } from '@mui/material';
+import React, { useState } from "react";
+import { Button, Container, TextField, Typography } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+// @ts-ignore
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
     container: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-    },
-    form: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: '20px',
-        border: '1px solid black',
-        borderRadius: '5px',
-    },
-    input: {
-        margin: '20px',
-    },
-    button: {
-        margin: '10px',
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "100vh",
+        gap: "1rem",
     },
 });
 
-interface ILoginProps {
-    onLogin: (username: string, password: string) => void;
-}
-
-const LoginPage: React.FC<ILoginProps> = ({ onLogin }) => {
+const LoginPage: React.FC = () => {
     const classes = useStyles();
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const history = useHistory();
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
 
-    const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setUsername(event.target.value);
-    };
-
-    const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setPassword(event.target.value);
+    const handleRegisterClick = () => {
+        history.push("/register");
     };
 
     const handleLoginClick = () => {
-        onLogin(username, password);
+        if (validateCredentials(username, password)) {
+            console.log("Giriş başarılı!");
+            history.push("/page1");
+        } else {
+            console.log("Giriş başarısız. Lütfen bilgilerinizi kontrol edin.");
+        }
+    };
+
+    const validateCredentials = (username: string, password: string) => {
+        // Bu örnek için basit bir kontrol sağlayın; gerçek uygulamanızda daha güvenli bir yöntem kullanın
+        return username === "admin" && password === "12345";
     };
 
     return (
-        <div className={classes.container}>
-            <form className={classes.form}>
-                <h2>Login</h2>
-                <TextField
-                    className={classes.input}
-                    label="Username"
-                    variant="outlined"
-                    value={username}
-                    onChange={handleUsernameChange}
-                />
-                <TextField
-                    className={classes.input}
-                    label="Password"
-                    type="password"
-                    variant="outlined"
-                    value={password}
-                    onChange={handlePasswordChange}
-                />
-                <Button className={classes.button} variant="contained" color="primary" onClick={handleLoginClick}>
-                    Login
-                </Button>
-                <Button className={classes.button} variant="contained" color="secondary">
-                    Register
-                </Button>
-            </form>
-        </div>
+        <Container className={classes.container}>
+            <Typography variant="h4">Giriş Yap</Typography>
+            <TextField
+                label="Kullanıcı Adı"
+                variant="outlined"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+            />
+            <TextField
+                label="Şifre"
+                type="password"
+                variant="outlined"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+            />
+            <Button variant="contained" color="primary" onClick={handleLoginClick}>
+                Giriş Yap
+            </Button>
+            <Button variant="outlined" color="secondary" onClick={handleRegisterClick}>
+                Kayıt Ol
+            </Button>
+        </Container>
     );
 };
 

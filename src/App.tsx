@@ -1,42 +1,33 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import LoginPage from "./Components/LoginPage";
-
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom"
+import HeaderComponent from './Components/HeaderComponent';
+import FooterComponent from './Components/FooterComponent';
+import RegisterPage from "./Components/RegisterPage";
+import TrueCheck from "./Components/TrueCheck";
 function App() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    return (
 
-    const handleLogin = (username: string, password: string) => {
-        // Kullanıcının kimlik bilgilerini kontrol et
-        if (username === 'kullaniciadi' && password === 'sifre123') {
-            setIsLoggedIn(true);
-            setUsername(username);
-            setPassword(password);
-        } else {
-            alert('Hatalı kullanıcı adı veya şifre!');
-        }
-    };
-
-    const handleLogout = () => {
-        setIsLoggedIn(false);
-        setUsername('');
-        setPassword('');
-    };
-
-    if (isLoggedIn) {
-        return (
-            <div>
-                <h2>Hoş geldiniz, {username}!</h2>
-                <button onClick={handleLogout}>Çıkış yap</button>
-            </div>
-        );
-    } else {
-        return (
-            <div>
-                <LoginPage onLogin={handleLogin} />
-            </div>
-        );
-    }
+        <div>
+            <Router>
+                <HeaderComponent/>
+                <div className="container" style={{
+                    margin: "auto",
+                    display : 'flex',
+                    padding: "15px",
+                    maxWidth: "1500px",
+                    alignContent: "center",
+                }}>
+                    <Switch>
+                        <Route path="/" exact component={LoginPage}></Route>
+                        <Route path="/register" exact component={RegisterPage}></Route>
+                        <Route path="/page1" exact component={TrueCheck}></Route>
+                    </Switch>
+                </div>
+                {<FooterComponent/>}
+            </Router>
+        </div>
+    )
 }
 
 export default App;
