@@ -43,17 +43,12 @@ const LoginPage: React.FC = () => {
         // }
     };
 
-    const validateCredentials = (username: string, password: string) => {
-        return true;
-        // Bu örnek için basit bir kontrol sağlayın; gerçek uygulamanızda daha güvenli bir yöntem kullanın
-        //return username === "admin" && password === "12345";
-    };
 
     return (
         <StyledContainer>
             <Typography variant="h4">Giriş Yap</Typography>
             <TextField
-                label="Kullanıcı Adı"
+                label="Username"
                 variant="outlined"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
