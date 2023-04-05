@@ -105,4 +105,6 @@ export const securitySlice : any = createSlice({
     }
 })
 
+export const { logout } = securitySlice.actions;
+
 export default securitySlice.reducer;

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Button, Container, TextField, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-// @ts-ignore
-import { useHistory } from "react-router-dom";
+
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../Store/securityslice";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles({
     container: {
@@ -19,8 +19,8 @@ const useStyles = makeStyles({
 
 const RegisterPage: React.FC = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const classes = useStyles();
-    const history = useHistory();
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [nationalNumber, setNationalNumber] = useState("");
@@ -31,17 +31,17 @@ const RegisterPage: React.FC = () => {
 
     useEffect(() => {
         if(isAuthenticated){
-            history.replace("/page1");
+            navigate("/page1", {replace:true});
         }
     })
 
     const handleRegisterClick = () => {
         dispatch(register({username: firstName, password: nationalNumber, email}));
-        history.push("/");
+        navigate("/");
     };
 
     const handleBackToLogin = () => {
-        history.push("/");
+        navigate("/");
     };
 
     return (

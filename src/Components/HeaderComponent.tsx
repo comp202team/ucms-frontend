@@ -1,25 +1,34 @@
-import React, { Component } from 'react'
+import { Button } from '@mui/material';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../Store/securityslice';
 
-class HeaderComponent extends Component {
-    constructor(props: {} | Readonly<{}>) {
-        super(props)
+const HeaderComponent = () => {
 
-        this.state = {
+    const dispatch = useDispatch();
 
-        }
-    }
+    const isAuthenticated = useSelector((state : any) => state.security.isAuthenticated);
 
-    render() {
-        return (
-            <div>
-                <header>
-                    <nav className="navbar navbar-expand-md navbar-dark bg-dark">
-                        <div><a  className="navbar-brand" style={{textAlign:'center'}}>Mustafa - Berke - Tim - Azim</a></div>
-                    </nav>
-                </header>
-            </div>
-        )
-    }
-}
+    return (
+        <div>
+            <header>
+                <nav className="navbar navbar-expand-md navbar-dark bg-dark">
+                    <div><a  className="navbar-brand" style={{textAlign:'center'}}>Mustafa - Berke - Tim - Azim</a></div>
+                    {isAuthenticated ?
+                        <>
+                            <Button variant='contained' onClick={() => dispatch(logout())}>Çıkış Yap</Button>
+                        </>
 
-export default HeaderComponent
+                    :
+                        <>
+                            <a>Giriş Yap</a>
+                            <a>Kayıt Ol</a>
+                        </>
+                    }
+                </nav>
+            </header>
+        </div>
+    );
+};
+
+export default HeaderComponent;

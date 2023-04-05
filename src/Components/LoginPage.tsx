@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Container, TextField, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 // @ts-ignore
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../Store/securityslice";
 
@@ -20,7 +20,7 @@ const useStyles = makeStyles({
 const LoginPage: React.FC = () => {
     const dispatch = useDispatch();
     const classes = useStyles();
-    const history = useHistory();
+    const navigate = useNavigate();
 
 
     const isAuthenticated = useSelector((state:any) => state.security.isAuthenticated);
@@ -29,12 +29,12 @@ const LoginPage: React.FC = () => {
     const [password, setPassword] = useState("");
 
     const handleRegisterClick = () => {
-        history.push("/register");
+        navigate("/register", {replace: false});
     };
 
     useEffect(() => {
         if(isAuthenticated){
-            history.replace("/page1");
+            navigate("/page1", {replace:true});
         }
     })
 
