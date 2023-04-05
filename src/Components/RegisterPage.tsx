@@ -20,9 +20,9 @@ const RegisterPage: React.FC = () => {
     const navigate = useNavigate();
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
-    const [nationalNumber, setNationalNumber] = useState("");
+    const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
-    const [phoneNumber, setPhoneNumber] = useState("");
+    const [username, setUsername] = useState("");
 
     const isAuthenticated = useSelector((state: any) => state.security.isAuthenticated);
 
@@ -33,7 +33,13 @@ const RegisterPage: React.FC = () => {
     });
 
     const handleRegisterClick = () => {
-        dispatch(register({ username: firstName, password: nationalNumber, email }));
+        dispatch(register({
+            username: username,
+            password: password,
+            email : email,
+            firstName : firstName,
+            lastName : lastName
+        }));
         navigate("/");
     };
 
@@ -57,10 +63,10 @@ const RegisterPage: React.FC = () => {
                 onChange={(e) => setLastName(e.target.value)}
             />
             <TextField
-                label="Ulusal Numara"
+                label="Username"
                 variant="outlined"
-                value={nationalNumber}
-                onChange={(e) => setNationalNumber(e.target.value)}
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
             />
             <TextField
                 label="E-posta"
@@ -70,10 +76,10 @@ const RegisterPage: React.FC = () => {
                 onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
-                label="Telefon Numarası"
+                label="Password"
                 variant="outlined"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
             />
             <Button variant="contained" color="primary" onClick={handleRegisterClick}>
                 Kaydol
