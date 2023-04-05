@@ -1,11 +1,24 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import LoginPage from "./Components/LoginPage";
+// @ts-ignore
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom"
 import HeaderComponent from './Components/HeaderComponent';
 import FooterComponent from './Components/FooterComponent';
 import RegisterPage from "./Components/RegisterPage";
 import TrueCheck from "./Components/TrueCheck";
+import { useDispatch } from 'react-redux';
+import { getCurrentUser } from './Store/securityslice';
 function App() {
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const token = localStorage.getItem("token")
+        if(token){
+            dispatch(getCurrentUser())
+        }
+    });
+
     return (
 
         <div>
