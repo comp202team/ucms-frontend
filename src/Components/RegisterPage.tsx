@@ -1,42 +1,39 @@
 import React, { useEffect, useState } from "react";
 import { Button, Container, TextField, Typography } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import { styled } from "@mui/system";
 
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../Store/securityslice";
 import { useNavigate } from "react-router-dom";
 
-const useStyles = makeStyles({
-    container: {
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "100vh",
-        gap: "1rem",
-    },
+const StyledContainer = styled(Container)({
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    minHeight: "100vh",
+    gap: "1rem",
 });
 
 const RegisterPage: React.FC = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const classes = useStyles();
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [nationalNumber, setNationalNumber] = useState("");
     const [email, setEmail] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
 
-    const isAuthenticated = useSelector((state : any) => state.security.isAuthenticated);
+    const isAuthenticated = useSelector((state: any) => state.security.isAuthenticated);
 
     useEffect(() => {
-        if(isAuthenticated){
-            navigate("/page1", {replace:true});
+        if (isAuthenticated) {
+            navigate("/page1", { replace: true });
         }
-    })
+    });
 
     const handleRegisterClick = () => {
-        dispatch(register({username: firstName, password: nationalNumber, email}));
+        dispatch(register({ username: firstName, password: nationalNumber, email }));
         navigate("/");
     };
 
@@ -45,7 +42,7 @@ const RegisterPage: React.FC = () => {
     };
 
     return (
-        <Container className={classes.container}>
+        <StyledContainer>
             <Typography variant="h4">Kayıt Ol</Typography>
             <TextField
                 label="İsim"
@@ -84,7 +81,7 @@ const RegisterPage: React.FC = () => {
             <Button variant="outlined" color="secondary" onClick={handleBackToLogin}>
                 Giriş Sayfasına Dön
             </Button>
-        </Container>
+        </StyledContainer>
     );
 };
 

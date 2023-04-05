@@ -1,42 +1,37 @@
 import React, { useState, useEffect } from "react";
 import { Button, Container, TextField, Typography } from "@mui/material";
-import { makeStyles } from "@mui/styles";
-// @ts-ignore
+import { styled } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../Store/securityslice";
 
-const useStyles = makeStyles({
-    container: {
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "100vh",
-        gap: "1rem",
-    },
+const StyledContainer = styled(Container)({
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    minHeight: "100vh",
+    gap: "1rem",
 });
 
 const LoginPage: React.FC = () => {
     const dispatch = useDispatch();
-    const classes = useStyles();
     const navigate = useNavigate();
 
-
-    const isAuthenticated = useSelector((state:any) => state.security.isAuthenticated);
+    const isAuthenticated = useSelector((state: any) => state.security.isAuthenticated);
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
     const handleRegisterClick = () => {
-        navigate("/register", {replace: false});
+        navigate("/register", { replace: false });
     };
 
     useEffect(() => {
-        if(isAuthenticated){
-            navigate("/page1", {replace:true});
+        if (isAuthenticated) {
+            navigate("/page1", { replace: true });
         }
-    })
+    });
 
     const handleLoginClick = () => {
         dispatch(login({username, password}))
@@ -55,7 +50,7 @@ const LoginPage: React.FC = () => {
     };
 
     return (
-        <Container className={classes.container}>
+        <StyledContainer>
             <Typography variant="h4">Giriş Yap</Typography>
             <TextField
                 label="Kullanıcı Adı"
@@ -76,7 +71,7 @@ const LoginPage: React.FC = () => {
             <Button variant="outlined" color="secondary" onClick={handleRegisterClick}>
                 Kayıt Ol
             </Button>
-        </Container>
+        </StyledContainer>
     );
 };
 
