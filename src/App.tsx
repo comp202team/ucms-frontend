@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import './App.css';
 import LoginPage from "./Components/LoginPage";
 // @ts-ignore
 import {BrowserRouter, Route, Routes} from "react-router-dom"
@@ -10,6 +11,8 @@ import { useDispatch } from 'react-redux';
 import { getCurrentUser } from './Store/securityslice';
 import ProtectedRoute from './Libs/ProtectedRoute';
 import NotFound from './Libs/NotFound';
+
+
 function App() {
 
     const dispatch = useDispatch();
