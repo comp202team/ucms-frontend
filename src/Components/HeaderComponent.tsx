@@ -1,7 +1,32 @@
-import { Button } from '@mui/material';
+import { AppBar, Button, Toolbar, Typography } from '@mui/material';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../Store/securityslice';
+import { Link, NavLink } from 'react-router-dom';
+import { makeStyles } from '@mui/styles';
+
+
+const useStyles : any = makeStyles((theme) => ({
+    root: {
+      flexGrow: 1,
+    },
+    appBar: {
+      backgroundColor: '#333',
+    },
+    title: {
+      flexGrow: 1,
+    },
+    navLink: {
+      textDecoration: 'none',
+      color: '#fff',
+      margin: '0 10px',
+      '&.active': {
+        fontWeight: 'bold',
+        borderBottom: '2px solid #fff',
+      },
+    },
+  }));
+
 
 const HeaderComponent = () => {
 
@@ -9,23 +34,40 @@ const HeaderComponent = () => {
 
     const isAuthenticated = useSelector((state : any) => state.security.isAuthenticated);
 
+    const classes = useStyles();
+
+    const onLogout = () => {
+        dispatch(logout());
+    }
+
     return (
         <div>
             <header>
-                <nav className="navbar navbar-expand-md navbar-dark bg-dark">
-                    <div><a  className="navbar-brand" style={{textAlign:'center'}}>Mustafa - Berke - Tim - Azim</a></div>
-                    {isAuthenticated ?
-                        <>
-                            <Button variant='contained' onClick={() => dispatch(logout())}>Çıkış Yap</Button>
-                        </>
-
+            <div className={classes.root}>
+                <AppBar position="static" className={classes.appBar}>
+                    <Toolbar>
+                    <Typography variant="h6" className={classes.title}>
+                        UMS
+                    </Typography>
+                    {
+                    isAuthenticated ? <>
+                        <Button color="inherit" onClick={() => onLogout()}>
+                                Logout
+                        </Button>
+                    </>
                     :
-                        <>
-                            <a>Giriş Yap</a>
-                            <a>Kayıt Ol</a>
-                        </>
+                    <>
+                        <Button component={Link} to="/" color="inherit">
+                            Login
+                        </Button>
+                        <Button component={Link} to="/register" color="inherit">
+                            Register
+                        </Button>
+                    </>     
                     }
-                </nav>
+                    </Toolbar>
+                </AppBar>
+            </div>
             </header>
         </div>
     );
