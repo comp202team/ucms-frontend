@@ -47,7 +47,12 @@ const HeaderComponent = () => {
                 <AppBar position="static" className={classes.appBar}>
                     <Toolbar>
                     <Typography variant="h6" className={classes.title}>
-                        UMS
+                        <Link to={"/"} style={{
+                            textDecoration:"none",
+                            color:"inherit"
+                        }}>
+                            UMS
+                        </Link>
                     </Typography>
                     {
                     isAuthenticated ? <>
