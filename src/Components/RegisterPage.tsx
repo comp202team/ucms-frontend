@@ -1,39 +1,54 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Container, TextField, Typography } from "@mui/material";
-import { makeStyles } from "@mui/styles";
-// @ts-ignore
-import { useHistory } from "react-router-dom";
+import { styled } from "@mui/system";
 
-const useStyles = makeStyles({
-    container: {
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "100vh",
-        gap: "1rem",
-    },
+import { useDispatch, useSelector } from "react-redux";
+import { register } from "../Store/securityslice";
+import { useNavigate } from "react-router-dom";
+
+const StyledContainer = styled(Container)({
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    minHeight: "100vh",
+    gap: "1rem",
 });
 
 const RegisterPage: React.FC = () => {
-    const classes = useStyles();
-    const history = useHistory();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
-    const [nationalNumber, setNationalNumber] = useState("");
+    const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
-    const [phoneNumber, setPhoneNumber] = useState("");
+    const [username, setUsername] = useState("");
+
+    const isAuthenticated = useSelector((state: any) => state.security.isAuthenticated);
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate("/page1", { replace: true });
+        }
+    });
 
     const handleRegisterClick = () => {
-        // Kayıt işlemi gerçekleştirin, işlem tamamlandığında yönlendirme yapın
+        dispatch(register({
+            username: username,
+            password: password,
+            email : email,
+            firstName : firstName,
+            lastName : lastName
+        }));
+        navigate("/");
     };
 
     const handleBackToLogin = () => {
-        history.push("/");
+        navigate("/");
     };
 
     return (
-        <Container className={classes.container}>
+        <StyledContainer>
             <Typography variant="h4">Kayıt Ol</Typography>
             <TextField
                 label="İsim"
@@ -48,10 +63,10 @@ const RegisterPage: React.FC = () => {
                 onChange={(e) => setLastName(e.target.value)}
             />
             <TextField
-                label="Ulusal Numara"
+                label="Username"
                 variant="outlined"
-                value={nationalNumber}
-                onChange={(e) => setNationalNumber(e.target.value)}
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
             />
             <TextField
                 label="E-posta"
@@ -61,10 +76,10 @@ const RegisterPage: React.FC = () => {
                 onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
-                label="Telefon Numarası"
+                label="Password"
                 variant="outlined"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
             />
             <Button variant="contained" color="primary" onClick={handleRegisterClick}>
                 Kaydol
@@ -72,7 +87,7 @@ const RegisterPage: React.FC = () => {
             <Button variant="outlined" color="secondary" onClick={handleBackToLogin}>
                 Giriş Sayfasına Dön
             </Button>
-        </Container>
+        </StyledContainer>
     );
 };
 

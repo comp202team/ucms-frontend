@@ -1,23 +1,22 @@
-import React, { Component } from 'react'
+import React from 'react';
 
-class FooterComponent extends Component {
-    constructor(props: {} | Readonly<{}>) {
-        super(props)
+const FooterComponent = () => {
 
-        this.state = {
+    
+  return (
+    <div>
+      <footer style={{
+        textAlign:"center",
+        position:"fixed",
+        bottom:0,
+        width:"100%",
+        backgroundColor: "#f2f2f2",
+        padding:10,
+    }}>
+        <span className="text-muted">School Management System</span>
+      </footer>
+    </div>
+  );
+};
 
-        }
-    }
-
-    render() {
-        return (
-            <div>
-                <footer className = "footer" style={{textAlign:"center"}}>
-                    <span className="text-muted">School Management</span>
-                </footer>
-            </div>
-        )
-    }
-}
-
-export default FooterComponent
+export default FooterComponent;

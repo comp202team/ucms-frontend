@@ -1,13 +1,31 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCurrentUser, logout } from '../Store/securityslice';
+import { Navigate } from "react-router-dom";
 
 
 const ProtectedRoute =(props : any) => {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
+    const isAuthenticated = useSelector((state : any) => state.security.isAuthenticated);
+    const loading = useSelector((state : any) => state.security.loading);
+
+    if(!isAuthenticated){
+        if(localStorage.getItem("token")){
+            dispatch(getCurrentUser());
+        }
+        else{
+            dispatch(logout())
+            return <Navigate to={"/"}/>;
+        }
+    }
     return (
-        <div></div>
+        <>
+            {loading ? <></>
+            :
+            <>{props.children}</>
+            }
+        </>
     );
 }
 

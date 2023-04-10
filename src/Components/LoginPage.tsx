@@ -1,49 +1,54 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Container, TextField, Typography } from "@mui/material";
-import { makeStyles } from "@mui/styles";
-// @ts-ignore
-import { useHistory } from "react-router-dom";
+import { styled } from "@mui/system";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../Store/securityslice";
 
-const useStyles = makeStyles({
-    container: {
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "100vh",
-        gap: "1rem",
-    },
+const StyledContainer = styled(Container)({
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    minHeight: "100vh",
+    gap: "1rem",
 });
 
 const LoginPage: React.FC = () => {
-    const classes = useStyles();
-    const history = useHistory();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const isAuthenticated = useSelector((state: any) => state.security.isAuthenticated);
+
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
     const handleRegisterClick = () => {
-        history.push("/register");
+        navigate("/register", { replace: false });
     };
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate("/page1", { replace: true });
+        }
+    });
 
     const handleLoginClick = () => {
-        if (validateCredentials(username, password)) {
-            console.log("Giriş başarılı!");
-            history.push("/page1");
-        } else {
-            console.log("Giriş başarısız. Lütfen bilgilerinizi kontrol edin.");
-        }
+        dispatch(login({username, password}))
+        // if (validateCredentials(username, password)) {
+        //     console.log("Giriş başarılı!");
+        //     history.push("/page1");
+        // } else {
+        //     console.log("Giriş başarısız. Lütfen bilgilerinizi kontrol edin.");
+        // }
     };
 
-    const validateCredentials = (username: string, password: string) => {
-        // Bu örnek için basit bir kontrol sağlayın; gerçek uygulamanızda daha güvenli bir yöntem kullanın
-        return username === "admin" && password === "12345";
-    };
 
     return (
-        <Container className={classes.container}>
+        <StyledContainer>
             <Typography variant="h4">Giriş Yap</Typography>
             <TextField
-                label="Kullanıcı Adı"
+                label="Username"
                 variant="outlined"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -61,7 +66,7 @@ const LoginPage: React.FC = () => {
             <Button variant="outlined" color="secondary" onClick={handleRegisterClick}>
                 Kayıt Ol
             </Button>
-        </Container>
+        </StyledContainer>
     );
 };
 
