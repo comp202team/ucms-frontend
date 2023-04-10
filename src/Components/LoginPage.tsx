@@ -46,7 +46,7 @@ const LoginPage: React.FC = () => {
 
     return (
         <StyledContainer>
-            <Typography variant="h4">Giriş Yap</Typography>
+            <Typography variant="h4">Login</Typography>
             <TextField
                 label="Username"
                 variant="outlined"
@@ -54,17 +54,17 @@ const LoginPage: React.FC = () => {
                 onChange={(e) => setUsername(e.target.value)}
             />
             <TextField
-                label="Şifre"
+                label="Password"
                 type="password"
                 variant="outlined"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
             />
             <Button variant="contained" color="primary" onClick={handleLoginClick}>
-                Giriş Yap
+                Login
             </Button>
             <Button variant="outlined" color="secondary" onClick={handleRegisterClick}>
-                Kayıt Ol
+                 Register
             </Button>
         </StyledContainer>
     );

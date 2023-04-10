@@ -51,13 +51,13 @@ const RegisterPage: React.FC = () => {
         <StyledContainer>
             <Typography variant="h4">Kayıt Ol</Typography>
             <TextField
-                label="İsim"
+                label="Name"
                 variant="outlined"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
             />
             <TextField
-                label="Soyad"
+                label="Surname"
                 variant="outlined"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
@@ -69,7 +69,7 @@ const RegisterPage: React.FC = () => {
                 onChange={(e) => setUsername(e.target.value)}
             />
             <TextField
-                label="E-posta"
+                label="E-mail"
                 type="email"
                 variant="outlined"
                 value={email}
@@ -78,14 +78,15 @@ const RegisterPage: React.FC = () => {
             <TextField
                 label="Password"
                 variant="outlined"
+                type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
             />
             <Button variant="contained" color="primary" onClick={handleRegisterClick}>
-                Kaydol
+                Register
             </Button>
             <Button variant="outlined" color="secondary" onClick={handleBackToLogin}>
-                Giriş Sayfasına Dön
+                Login
             </Button>
         </StyledContainer>
     );
