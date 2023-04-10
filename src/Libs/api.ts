@@ -27,7 +27,7 @@ instance.interceptors.response.use(response => {
     if(error.response.status === 401){
         localStorage.removeItem("token");
         // hata verme ihtimali olabilir js tarafında kullanımı => window.location = "/login";
-        window.location.href = "/login";
+        window.location.href = "/";
     }
     return Promise.reject(error);
 })

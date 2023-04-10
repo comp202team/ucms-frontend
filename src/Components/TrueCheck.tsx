@@ -5,13 +5,13 @@ import StudentPage from "./StudentPage";
 
 const TrueCheck: React.FC = () => {
 
-    const token : string |null = localStorage.getItem("token");
+    const token : string | null = localStorage.getItem("token");
     const decodedToken : any = token ? jwt_decode(token) : null;
 
     return (
         <>
         {
-            decodedToken.scopes.includes("ROLE_ADMIN") ? 
+            decodedToken.scopes.includes("ROLE_INSTRUCTOR") ? 
             <InstructorPage/>
             :
             <StudentPage/>

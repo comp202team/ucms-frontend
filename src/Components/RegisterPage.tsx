@@ -51,13 +51,13 @@ const RegisterPage: React.FC = () => {
         <StyledContainer>
             <Typography variant="h4">Kayıt Ol</Typography>
             <TextField
-                label="Name"
+                label="First Name"
                 variant="outlined"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
             />
             <TextField
-                label="Surname"
+                label="Last Name"
                 variant="outlined"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
@@ -78,15 +78,15 @@ const RegisterPage: React.FC = () => {
             <TextField
                 label="Password"
                 variant="outlined"
-                type="password"
                 value={password}
+                type="password"
                 onChange={(e) => setPassword(e.target.value)}
             />
             <Button variant="contained" color="primary" onClick={handleRegisterClick}>
                 Register
             </Button>
             <Button variant="outlined" color="secondary" onClick={handleBackToLogin}>
-                Login
+                Go to login
             </Button>
         </StyledContainer>
     );

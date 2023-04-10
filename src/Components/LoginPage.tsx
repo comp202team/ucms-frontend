@@ -64,7 +64,7 @@ const LoginPage: React.FC = () => {
                 Login
             </Button>
             <Button variant="outlined" color="secondary" onClick={handleRegisterClick}>
-                 Register
+                Register
             </Button>
         </StyledContainer>
     );
