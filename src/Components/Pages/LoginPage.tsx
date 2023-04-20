@@ -3,7 +3,7 @@ import { Button, Container, TextField, Typography } from "@mui/material";
 import { styled } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../Store/securityslice";
+import { login } from "../../Store/securityslice";
 
 const StyledContainer = styled(Container)({
     display: "flex",
@@ -19,6 +19,7 @@ const LoginPage: React.FC = () => {
     const navigate = useNavigate();
 
     const isAuthenticated = useSelector((state: any) => state.security.isAuthenticated);
+    const loginError = useSelector((state: any) => state.security.error); // Add this line to get the error message from Redux store
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -66,6 +67,7 @@ const LoginPage: React.FC = () => {
             <Button variant="outlined" color="secondary" onClick={handleRegisterClick}>
                 Register
             </Button>
+            {loginError && <Typography color="error">{loginError}</Typography>} {/* Add this line to display the error message */}
         </StyledContainer>
     );
 };

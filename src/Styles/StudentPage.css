@@ -1,0 +1,19 @@
+
+.container {
+    display: flex;
+    width: 100%;
+}
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 250px; /* istediğiniz genişliğe göre ayarlayın */
+    height: 100%;
+}
+
+.content {
+    margin-left: 250px; /* sidebar genişliği ile eşleşen bir değer kullanın */
+    width: calc(100% - 250px);
+    height: 100%;
+}

@@ -3,7 +3,7 @@ import { Button, Container, TextField, Typography } from "@mui/material";
 import { styled } from "@mui/system";
 
 import { useDispatch, useSelector } from "react-redux";
-import { register } from "../Store/securityslice";
+import { register } from "../../Store/securityslice";
 import { useNavigate } from "react-router-dom";
 
 const StyledContainer = styled(Container)({

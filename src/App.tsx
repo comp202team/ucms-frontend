@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
-import LoginPage from "./Components/LoginPage";
+import LoginPage from "./Components/Pages/LoginPage";
 // @ts-ignore
 import {BrowserRouter, Route, Routes} from "react-router-dom"
 import HeaderComponent from './Components/HeaderComponent';
 import FooterComponent from './Components/FooterComponent';
-import RegisterPage from "./Components/RegisterPage";
+import RegisterPage from "./Components/Pages/RegisterPage";
 import TrueCheck from "./Components/TrueCheck";
 import { useDispatch } from 'react-redux';
 import { getCurrentUser } from './Store/securityslice';
