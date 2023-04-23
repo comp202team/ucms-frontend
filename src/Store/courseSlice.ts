@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import api from "../Libs/api"
 
 interface Course {
     courseId: number;
@@ -39,12 +40,34 @@ const initialState: CourseState = {
 };
 
 
+
+export const getStudentCourses : any = createAsyncThunk("auth/login", async (loginCred, thunkApi) => {
+    try{
+        const response = await api.get("/courses");
+        return response.data;
+    }
+    catch(error : any){
+        thunkApi.rejectWithValue(error.response?.data );
+    }
+})
+
+
 export const courseSlice : any = createSlice({
     name:"course",
     initialState,
     reducers: {
     },
     extraReducers: (builder) => {
+        builder.addCase(getStudentCourses.pending, (state, action) => {
+            state.loading = true;
+        })
+        builder.addCase(getStudentCourses.fulfilled, (state, action) => {
+            state.loading = false;
+            state.courses = action.payload;
+        })
+        builder.addCase(getStudentCourses.rejected, (state, action) => {
+            state.loading = false;
+        })
     }
 })
 

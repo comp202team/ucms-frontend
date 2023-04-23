@@ -1,4 +1,4 @@
-import { AppBar, Button, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../Store/securityslice';
@@ -33,19 +33,21 @@ const HeaderComponent = () => {
                     </Typography>
                     {
                     isAuthenticated ? <>
-                        <Button color="inherit" onClick={() => onLogout()}>
+                        <Button color="inherit" onClick={() => onLogout()} sx={{
+                            marginLeft:"auto",
+                        }}>
                                 Logout
                         </Button>
                     </>
                     :
-                    <>
-                        <Button component={Link} to="/" color="inherit">
+                    <Box sx={{marginLeft:"auto"}}>
+                        <Button component={Link} to="/" color="inherit" >
                             Login
                         </Button>
                         <Button component={Link} to="/register" color="inherit">
                             Register
                         </Button>
-                    </>     
+                    </Box>     
                     }
                     </Toolbar>
                 </AppBar>

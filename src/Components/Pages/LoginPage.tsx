@@ -19,7 +19,7 @@ const LoginPage: React.FC = () => {
     const navigate = useNavigate();
 
     const isAuthenticated = useSelector((state: any) => state.security.isAuthenticated);
-    const loginError = useSelector((state: any) => state.security.error); // Add this line to get the error message from Redux store
+    const loginError = useSelector((state: any) => state.security.err); // Add this line to get the error message from Redux store
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -35,7 +35,11 @@ const LoginPage: React.FC = () => {
     });
 
     const handleLoginClick = () => {
-        dispatch(login({username, password}))
+        dispatch(login({username, password})).then((response : any) => {
+            if(!response.error){
+                //console.log("asdfd")
+            }
+        })
         // if (validateCredentials(username, password)) {
         //     console.log("Giriş başarılı!");
         //     history.push("/page1");

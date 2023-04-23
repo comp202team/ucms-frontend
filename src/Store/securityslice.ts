@@ -8,7 +8,7 @@ const initialState = {
     isAuthenticated: false,
     token: "",
     user: {},
-    err:"",
+    error: "",
 };
 
 export const login : any = createAsyncThunk("auth/login", async (loginCred, thunkApi) => {
@@ -64,13 +64,14 @@ export const securitySlice : any = createSlice({
             state.user = action.payload.user;
             state.loading = false;
             state.isAuthenticated = true;
+            state.error = "";
         })
         builder.addCase(login.rejected, (state, action) => {
             state.isAuthenticated = false;
             state.user = {};
             state.token = "";
             state.loading = false;
-            state.err = "Invalid Credentials"
+            state.error = "Invalid Credentials"
         })
 
 
@@ -80,11 +81,11 @@ export const securitySlice : any = createSlice({
         builder.addCase(register.fulfilled, (state, action) => {
             state.loading = false;
             state.isAuthenticated = false;
-            state.err="";
+            state.error="";
         })
         builder.addCase(register.rejected, (state, action) => {
             state.loading = false;
-            state.err="Username or Email existed."
+            state.error="Username or Email existed."
         })
 
 
