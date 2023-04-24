@@ -41,9 +41,41 @@ const initialState: CourseState = {
 
 
 
-export const getStudentCourses : any = createAsyncThunk("auth/login", async (loginCred, thunkApi) => {
+export const getStudentCourses : any = createAsyncThunk("courses/getStudentCourses", async (studentId, thunkApi) => {
     try{
         const response = await api.get("/courses");
+        return response.data;
+    }
+    catch(error : any){
+        thunkApi.rejectWithValue(error.response?.data );
+    }
+})
+
+
+export const getInstructorCourses : any = createAsyncThunk("courses/getInstructorCourses", async (instructorId, thunkApi) => {
+    try{
+        const response = await api.get("/courses");
+        return response.data;
+    }
+    catch(error : any){
+        thunkApi.rejectWithValue(error.response?.data );
+    }
+})
+
+export const createCourse : any = createAsyncThunk("courses/createCourse", async (courseCred, thunkApi) => {
+    try{
+        const response = await api.post("/courses", courseCred);
+        return response.data;
+    }
+    catch(error : any){
+        thunkApi.rejectWithValue(error.response?.data );
+    }
+})
+
+
+export const updateCourse : any = createAsyncThunk("courses/updateCourse", async (courseCred, thunkApi) => {
+    try{
+        const response = await api.put("/courses", courseCred);
         return response.data;
     }
     catch(error : any){
@@ -67,6 +99,39 @@ export const courseSlice : any = createSlice({
         })
         builder.addCase(getStudentCourses.rejected, (state, action) => {
             state.loading = false;
+        })
+
+        builder.addCase(getInstructorCourses.pending, (state, action) => {
+            state.loading = true;
+        })
+        builder.addCase(getInstructorCourses.fulfilled, (state, action) => {
+            state.loading = false;
+            state.courses = action.payload;
+        })
+        builder.addCase(getInstructorCourses.rejected, (state, action) => {
+            state.loading = false;
+        })
+
+        builder.addCase(createCourse.pending, (state, action) => {
+            state.loading = true;
+        })
+        builder.addCase(createCourse.fulfilled, (state, action) => {
+            state.loading = false;
+            state.course = action.payload;
+        })
+        builder.addCase(createCourse.rejected, (state, action) => {
+            state.loading = false;  
+        })
+
+        builder.addCase(updateCourse.pending, (state, action) => {
+            state.loading = true;
+        })
+        builder.addCase(updateCourse.fulfilled, (state, action) => {
+            state.loading = false;
+            state.course = action.payload;
+        })
+        builder.addCase(updateCourse.rejected, (state, action) => {
+            state.loading = false;  
         })
     }
 })
