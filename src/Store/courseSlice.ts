@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../Libs/api"
 
-interface Course {
+export interface Course {
     courseId: number;
     courseCode: string;
     courseName: string;
@@ -11,14 +11,14 @@ interface Course {
     instructor: Instructor;
 }
 
-interface Department {
+export interface Department {
     departmentId: number;
     departmentName: string;
     departmentCode: string;
     departmentHead: string;
 }
 
-interface Instructor {
+export interface Instructor {
     id: number;
     firstName: string;
     lastName: string;
@@ -43,7 +43,7 @@ const initialState: CourseState = {
 
 export const getStudentCourses : any = createAsyncThunk("courses/getStudentCourses", async (studentId, thunkApi) => {
     try{
-        const response = await api.get("/courses");
+        const response = await api.get(`/courses?userId=${studentId}`);
         return response.data;
     }
     catch(error : any){
@@ -54,7 +54,7 @@ export const getStudentCourses : any = createAsyncThunk("courses/getStudentCours
 
 export const getInstructorCourses : any = createAsyncThunk("courses/getInstructorCourses", async (instructorId, thunkApi) => {
     try{
-        const response = await api.get("/courses");
+        const response = await api.get(`/courses?userId=${instructorId}`);
         return response.data;
     }
     catch(error : any){
