@@ -15,7 +15,7 @@ const CourseDashboard = ({courses}: CourseDashboardProps) => {
             bgcolor="#F8F8F8"
             padding="20px"
         >
-            {courses.map((course: Course) => (
+            {courses && courses.map((course: Course) => (
                 <Card
                     key={course.id}
                     style={{
