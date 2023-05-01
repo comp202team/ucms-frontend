@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux';
 import { getCurrentUser } from './Store/securityslice';
 import ProtectedRoute from './Libs/ProtectedRoute';
 import NotFound from './Libs/NotFound';
+import {Box} from "@mui/material";
 
 
 function App() {
@@ -26,26 +27,28 @@ function App() {
 
     return (
 
-        <div>
+        <Box>
             <BrowserRouter>
-                <HeaderComponent/>
-                <div className="container" style={{
+                <Box style={{display:'fixed'}}>
+                <HeaderComponent />
+                </Box>
+                <Box className="container" style={{
                     margin: "auto",
                     display : 'flex',
                     padding: "15px",
-                    maxWidth: "1500px", 
+                    maxWidth: "1500px",
                     alignContent: "center",
                 }}>
                     <Routes>
                         <Route path="/" element={<LoginPage/>}/>
                         <Route path="/register" element={<RegisterPage/>}/>
-                        <Route path="/page1" element={<ProtectedRoute><TrueCheck/></ProtectedRoute>}/>
+                        <Route path="/dashboard" element={<ProtectedRoute><TrueCheck/></ProtectedRoute>}/>
                         <Route path='*' element={<NotFound/>}/>
                     </Routes>
-                </div>
+                </Box>
                 {<FooterComponent/>}
             </BrowserRouter>
-        </div>
+        </Box>
     )
 }
 

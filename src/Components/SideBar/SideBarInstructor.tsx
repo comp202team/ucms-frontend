@@ -2,9 +2,11 @@ import React from 'react';
 import SchoolIcon from '@mui/icons-material/School';
 import PersonIcon from '@mui/icons-material/Person';
 import {Drawer, List, ListItem, ListItemIcon, ListItemText} from "@mui/material";
+import {useSelector} from "react-redux";
 
 
 export const SideBarInstructor: React.FC = () => {
+    const user = useSelector((state: any) => state.security.user);
 
     return (
         <Drawer anchor="left" variant="permanent">
@@ -13,7 +15,7 @@ export const SideBarInstructor: React.FC = () => {
                     {/* Add your menu items here */}
                     <ListItem button>
                         <ListItemIcon><PersonIcon/></ListItemIcon>
-                        <ListItemText primary="Sınavlar"/>
+                        <ListItemText primary={user.firstName + ' ' +  user.lastName}/>
                     </ListItem>
 
                     <ListItem button>

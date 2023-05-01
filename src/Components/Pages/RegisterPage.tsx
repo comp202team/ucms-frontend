@@ -28,7 +28,7 @@ const RegisterPage: React.FC = () => {
 
     useEffect(() => {
         if (isAuthenticated) {
-            navigate("/page1", { replace: true });
+            navigate("/dashboard", { replace: true });
         }
     });
 

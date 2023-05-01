@@ -4,6 +4,8 @@ import { Box } from '@mui/material'
 import InstructorDashboard from '../Dashboard/InstructorDashboard'
 import { useDispatch, useSelector } from 'react-redux'
 import { Course, getInstructorCourses } from '../../Store/courseSlice'
+import {SideBarStudent} from "../SideBar/SideBarStudent";
+import CourseDashboard from "./CourseDashboard";
 
 type Props = {}
 
@@ -17,22 +19,14 @@ const InstructorPage = (props: Props) => {
   },[])
 
   return (
-    <div>
       <Box className="container">
-        <div className="sidebar">
-            <SideBarInstructor/>
-        </div>
-        <div className="content">
-            <div> Test Test Ttessttt</div>
-            <InstructorDashboard />
-
-            {/* Course'lar bu şekilde maplenebilir */}
-            <div>Courses: <br/>{courses && courses.map((course : Course) => {
-              return <div>{course.courseName}</div>
-            })}</div>
-        </div>
-    </Box>
-    </div>
+          <Box className="sidebar">
+              <SideBarInstructor/>
+          </Box>
+          <Box>
+              <CourseDashboard courses={courses}/>
+          </Box>
+      </Box>
   )
 }
 

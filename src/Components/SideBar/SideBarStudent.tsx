@@ -3,9 +3,11 @@ import SchoolIcon from '@mui/icons-material/School';
 import BookIcon from '@mui/icons-material/Book';
 import {Box, Drawer, List, ListItem, ListItemIcon, ListItemText} from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
+import {useSelector} from "react-redux";
 
 
 export const SideBarStudent: React.FC = () => {
+    const user = useSelector((state: any) => state.security.user);
 
     return (
         <Box sx={{width: '80%', maxWidth: 360, bgcolor: 'background.paper'}}>
@@ -15,8 +17,8 @@ export const SideBarStudent: React.FC = () => {
                         <List>
                             {/* Add your menu items here */}
                             <ListItem button>
-                                <ListItemIcon><BookIcon/></ListItemIcon>
-                                <ListItemText primary="Sınavlar"/>
+                                <ListItemIcon><PersonIcon/></ListItemIcon>
+                                <ListItemText primary={user.firstName + ' ' +  user.lastName}/>
                             </ListItem>
 
                             <ListItem button>

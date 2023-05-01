@@ -71,7 +71,8 @@ export const createCourse : any = createAsyncThunk("courses/createCourse", async
         thunkApi.rejectWithValue(error.response?.data );
     }
 })
-
+//TODO  1- dispatch - 2onsubmit
+//Todo edit- create formları  (just for instructor)
 
 export const updateCourse : any = createAsyncThunk("courses/updateCourse", async (courseCred, thunkApi) => {
     try{

@@ -18,10 +18,10 @@ const HeaderComponent = () => {
     }
 
     return (
-        <div>
+        <Box style={{marginTop:'50px'}}>
             <header>
             <div >
-                <AppBar position="static" >
+                <AppBar position="fixed" >
                     <Toolbar>
                     <Typography variant="h6" >
                         <Link to={"/"} style={{
@@ -38,6 +38,7 @@ const HeaderComponent = () => {
                         }}>
                                 Logout
                         </Button>
+                        <Button onClick={}>Create Course</Button>
                     </>
                     :
                     <Box sx={{marginLeft:"auto"}}>
@@ -47,13 +48,13 @@ const HeaderComponent = () => {
                         <Button component={Link} to="/register" color="inherit">
                             Register
                         </Button>
-                    </Box>     
+                    </Box>
                     }
                     </Toolbar>
                 </AppBar>
             </div>
             </header>
-        </div>
+        </Box>
     );
 };
 

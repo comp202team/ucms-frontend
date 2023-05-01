@@ -3,39 +3,30 @@ import {SideBarStudent} from "../SideBar/SideBarStudent";
 import {Box, Button} from "@mui/material";
 import "../../Styles/StudentPage.css"
 import StudentDashboard from '../Dashboard/StudentDashboard';
-import { useDispatch, useSelector } from 'react-redux';
-import { Course, getStudentCourses } from '../../Store/courseSlice';
+import {useDispatch, useSelector} from 'react-redux';
+import {Course, getStudentCourses} from '../../Store/courseSlice';
+import CourseDashboard from "./CourseDashboard";
 
 type Props = {}
 
 const StudentPage = (props: Props) => {
     const dispatch = useDispatch();
     const user = useSelector((state: any) => state.security.user);
-    const courses = useSelector((state : any) => state.course.courses);
+    const courses = useSelector((state: any) => state.course.courses);
 
     useEffect(() => {
         dispatch(getStudentCourses(user.id));
-      },[])
+    }, [])
     return (
-        <div>
-            <Box className="container">
-                <div className="sidebar">
-                    <SideBarStudent />
-                </div>
-                <div className="content">
-                    <div> Test Test Ttessttt</div>
-                    <StudentDashboard/>
-                </div>
-            {/* Course'lar bu şekilde maplenebilir */}
-            <div>
-                Courses: <br/>
-                {courses && courses.map((course : Course) => {
-                    return <div>{course.courseName}</div>
-                })}
-            </div>
+             <Box className="container">
+                <Box className="sidebar">
+                    <SideBarStudent/>
+                </Box>
+                <Box>
+                    <CourseDashboard courses={courses}/>
+                </Box>
             </Box>
-        </div>
-    )
+     )
 }
 
 export default StudentPage
