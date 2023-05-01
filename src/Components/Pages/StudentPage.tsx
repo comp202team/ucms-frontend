@@ -6,6 +6,7 @@ import StudentDashboard from '../Dashboard/StudentDashboard';
 import {useDispatch, useSelector} from 'react-redux';
 import {Course, getStudentCourses} from '../../Store/courseSlice';
 import CourseDashboard from "./CourseDashboard";
+import { studentMode } from '../../Store/securityslice';
 
 type Props = {}
 
@@ -16,6 +17,7 @@ const StudentPage = (props: Props) => {
 
     useEffect(() => {
         dispatch(getStudentCourses(user.id));
+        dispatch(studentMode());
     }, [])
     return (
              <Box className="container">

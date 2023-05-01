@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Course, getInstructorCourses } from '../../Store/courseSlice'
 import {SideBarStudent} from "../SideBar/SideBarStudent";
 import CourseDashboard from "./CourseDashboard";
+import { instructorMode } from '../../Store/securityslice'
 
 type Props = {}
 
@@ -16,6 +17,7 @@ const InstructorPage = (props: Props) => {
 
   useEffect(() => {
     dispatch(getInstructorCourses(user.id));
+    dispatch(instructorMode());
   }, [])
 
   return (

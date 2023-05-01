@@ -3,7 +3,8 @@ import { Button, Container, TextField, Typography } from "@mui/material";
 import { styled } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../Store/securityslice";
+import { instructorMode, login, studentMode } from "../../Store/securityslice";
+import jwt_decode from "jwt-decode";
 
 const StyledContainer = styled(Container)({
     display: "flex",
@@ -36,8 +37,15 @@ const LoginPage: React.FC = () => {
 
     const handleLoginClick = () => {
         dispatch(login({username, password})).then((response : any) => {
-            if(!response.error){
-                //console.log("asdfd")
+            if(!response.error){            
+                const token : string | null = localStorage.getItem("token");
+                const decodedToken : any = token ? jwt_decode(token) : null;
+                if(decodedToken.scopes.includes("ROLE_INSTRUCTOR")){
+                    dispatch(instructorMode());
+                }
+                else{
+                    dispatch(studentMode());
+                }
             }
         })
         // if (validateCredentials(username, password)) {

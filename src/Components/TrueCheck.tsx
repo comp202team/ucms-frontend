@@ -5,15 +5,14 @@ import StudentPage from "./Pages/StudentPage";
 import { useSelector } from "react-redux";
 
 const TrueCheck: React.FC = () => {
+    
 
-    const token : string | null = localStorage.getItem("token");
-    const decodedToken : any = token ? jwt_decode(token) : null;
-    const user = useSelector((state: any) => state.security.user);
+    const isInstructor = useSelector((state : any) => state.security.isInstructor);
 
     return (
         <>
         {
-            decodedToken.scopes.includes("ROLE_INSTRUCTOR") ? 
+            isInstructor === true ? 
             <InstructorPage/>
             :
             <StudentPage/>

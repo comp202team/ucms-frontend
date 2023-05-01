@@ -1,7 +1,5 @@
 import {AsyncThunkAction, createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import api from "../Libs/api";
-import { create } from "domain";
-
 
 const initialState = {
     loading: true,
@@ -9,6 +7,7 @@ const initialState = {
     token: "",
     user: {},
     error: "",
+    isInstructor: false,
 };
 
 export const login : any = createAsyncThunk("auth/login", async (loginCred, thunkApi) => {
@@ -51,9 +50,18 @@ export const securitySlice : any = createSlice({
     reducers: {
         logout(state) {
             state.isAuthenticated = false;
+            state.isInstructor = false;
             localStorage.removeItem("token");
             localStorage.removeItem("user")
+        },
+        instructorMode(state) {
+            state.isInstructor = true;
+        },
+        studentMode(state) {
+            state.isInstructor = false;
         }
+        
+
     },
     extraReducers: (builder) => {
         builder.addCase(login.pending, (state, action) => {
@@ -106,6 +114,6 @@ export const securitySlice : any = createSlice({
     }
 })
 
-export const { logout } = securitySlice.actions;
+export const { logout, instructorMode, studentMode} = securitySlice.actions;
 
 export default securitySlice.reducer;
