@@ -113,7 +113,7 @@ const CourseDashboard = ({courses}: CourseDashboardProps) => {
                                 color: '#888'
                             }}
                         >
-                            Instructor: {course.instructor.firstName + " " + course.instructor.lastName}
+                            Instructor: {course.instructor != null && (course.instructor.firstName + " " + course.instructor.lastName)}
                         </Typography>
                     </CardContent>
                 </Card>

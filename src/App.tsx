@@ -8,7 +8,7 @@ import FooterComponent from './Components/FooterComponent';
 import RegisterPage from "./Components/Pages/RegisterPage";
 import TrueCheck from "./Components/TrueCheck";
 import { useDispatch } from 'react-redux';
-import { getCurrentUser } from './Store/securityslice';
+import { getCurrentUser, instructorMode, studentMode } from './Store/securityslice';
 import ProtectedRoute from './Libs/ProtectedRoute';
 import NotFound from './Libs/NotFound';
 import {Box} from "@mui/material";
@@ -16,6 +16,8 @@ import InstructorRoute from './Libs/InstructorRoute';
 import { CourseForm } from './Components/Pages/CourseCreatePage';
 import { UpdateCoursePage } from './Components/Pages/UpdateCoursePage';
 import CourseDetailPage from './Components/Pages/CourseDetailPage';
+import jwt_decode from "jwt-decode";
+
 
 
 function App() {
@@ -25,7 +27,18 @@ function App() {
     useEffect(() => {
         const token = localStorage.getItem("token")
         if(token){
-            dispatch(getCurrentUser())
+            dispatch(getCurrentUser()).then((response : any) => {
+                if(!response.error){            
+                    const token : string | null = localStorage.getItem("token");
+                    const decodedToken : any = token ? jwt_decode(token) : null;
+                    if(decodedToken.scopes.includes("ROLE_INSTRUCTOR")){
+                        dispatch(instructorMode());
+                    }
+                    else{
+                        dispatch(studentMode());
+                    }
+                }
+            })
         }
     });
 
