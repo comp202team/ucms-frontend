@@ -2,7 +2,7 @@ import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../Store/securityslice';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 
@@ -38,7 +38,6 @@ const HeaderComponent = () => {
                         }}>
                                 Logout
                         </Button>
-                        <Button onClick={}>Create Course</Button>
                     </>
                     :
                     <Box sx={{marginLeft:"auto"}}>

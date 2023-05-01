@@ -12,6 +12,8 @@ import { getCurrentUser } from './Store/securityslice';
 import ProtectedRoute from './Libs/ProtectedRoute';
 import NotFound from './Libs/NotFound';
 import {Box} from "@mui/material";
+import InstructorRoute from './Libs/InstructorRoute';
+import { CourseForm } from './Components/Pages/CourseCreatePage';
 
 
 function App() {
@@ -43,6 +45,7 @@ function App() {
                         <Route path="/" element={<LoginPage/>}/>
                         <Route path="/register" element={<RegisterPage/>}/>
                         <Route path="/dashboard" element={<ProtectedRoute><TrueCheck/></ProtectedRoute>}/>
+                        <Route path='/createCourse' element={<InstructorRoute><CourseForm/></InstructorRoute>}/>
                         <Route path='*' element={<NotFound/>}/>
                     </Routes>
                 </Box>

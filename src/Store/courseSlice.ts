@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../Libs/api"
 
 export interface Course {
-    courseId: number;
+    id: number;
     courseCode: string;
     courseName: string;
     courseDesc: string;

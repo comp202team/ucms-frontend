@@ -1,14 +1,16 @@
 import React, { useState } from "react";
-// @ts-ignore
-import { useHistory } from "react-router-dom";
 import {Course, createCourse, Department, Instructor} from "../../Store/courseSlice";
 import {Button, TextField, Typography} from "@mui/material";
 import {useDispatch} from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 interface CourseFormProps {}
 
-const CourseForm: React.FC<CourseFormProps> = () => {
+export const CourseForm: React.FC<CourseFormProps> = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const departments : any = [];
 
     const [course, setCourse] = useState({
         courseCode: "",
@@ -21,18 +23,12 @@ const CourseForm: React.FC<CourseFormProps> = () => {
             departmentCode: "",
             departmentHead: "",
         },
-        instructor: {
-            id: 0,
-            firstName: "",
-            lastName: "",
-            email: "",
-            username: "",
-        },
     });
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         dispatch(createCourse(course));
+        navigate("/dashboard");
     };
 
     const handleCourseChange = (
@@ -62,26 +58,17 @@ const CourseForm: React.FC<CourseFormProps> = () => {
         const { name, value } = event.target;
         setCourse((prevCourse) => ({ ...prevCourse, [name]: value }));
     };
-    const handleSelectChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    const handleSelectChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = event.target;
         setCourse((prevCourse) => ({
             ...prevCourse,
-            [name]: departments.find((dep) => dep.departmentId === value),
-        }));
-    };
-    const handleInstructorChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
-        const { name, value } = e.target;
-        setCourse((prevState) => ({
-            ...prevState,
-            instructor: { ...prevState.instructor, [name]: value },
+            [name]: departments.find((dep : any) => dep.departmentId === value),
         }));
     };
 
     return (
         <form onSubmit={handleSubmit}>
-            <Typography variant="h4">Create Course</Typography>
+            <Typography variant="h4" margin={2}>Create Course</Typography>
             <TextField
                 label="Course Code"
                 name="courseCode"
@@ -89,6 +76,7 @@ const CourseForm: React.FC<CourseFormProps> = () => {
                 onChange={handleChange}
                 required
                 fullWidth
+                sx={{margin:2}}
             />
             <TextField
                 label="Course Name"
@@ -97,6 +85,7 @@ const CourseForm: React.FC<CourseFormProps> = () => {
                 onChange={handleChange}
                 required
                 fullWidth
+                sx={{margin:2}}
             />
             <TextField
                 label="Course Description"
@@ -105,6 +94,7 @@ const CourseForm: React.FC<CourseFormProps> = () => {
                 onChange={handleChange}
                 required
                 fullWidth
+                sx={{margin:2}}
             />
             <TextField
                 label="Credit Hours"
@@ -114,6 +104,7 @@ const CourseForm: React.FC<CourseFormProps> = () => {
                 onChange={handleChange}
                 required
                 fullWidth
+                sx={{margin:2}}
             />
             <TextField
                 select
@@ -121,31 +112,16 @@ const CourseForm: React.FC<CourseFormProps> = () => {
                 name="department"
                 value={course.department.departmentId}
                 onChange={handleSelectChange}
-                required
                 fullWidth
+                sx={{margin:2}}
             >
-                {departments.map((dep) => (
+                {departments.map((dep : any) => (
                     <option key={dep.departmentId} value={dep.departmentId}>
                         {dep.departmentName}
                     </option>
                 ))}
             </TextField>
-            <TextField
-                select
-                label="Instructor"
-                name="instructor"
-                value={course.instructor.firstName}
-                onChange={handleInstructorChange}
-                required
-                fullWidth
-            >
-                {instructors.map((ins) => (
-                    <option key={ins.instructorId} value={ins.instructorId}>
-                        {ins.instructorName}
-                    </option>
-                ))}
-            </TextField>
-            <Button type="submit" variant="contained" color="primary">
+            <Button type="submit" variant="contained" color="primary" sx={{margin:2}}>
                 Create
             </Button>
         </form>

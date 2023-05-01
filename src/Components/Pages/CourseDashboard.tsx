@@ -17,7 +17,7 @@ const CourseDashboard = ({courses}: CourseDashboardProps) => {
         >
             {courses.map((course: Course) => (
                 <Card
-                    key={course.courseId}
+                    key={course.id}
                     style={{
                         backgroundColor: '#fff',
                         width: '320px',
@@ -84,7 +84,7 @@ const CourseDashboard = ({courses}: CourseDashboardProps) => {
                                 color: '#888'
                             }}
                         >
-                            Instructor: {course.instructor.firstName}
+                            Instructor: {course.instructor.firstName + " " + course.instructor.lastName}
                         </Typography>
                     </CardContent>
                 </Card>
