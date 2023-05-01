@@ -62,6 +62,16 @@ export const getInstructorCourses : any = createAsyncThunk("courses/getInstructo
     }
 })
 
+export const getCourseById : any = createAsyncThunk("courses/getCourseById", async (courseId, thunkApi) => {
+    try{
+        const response = await api.get(`/courses/${courseId}`);
+        return response.data;
+    }
+    catch(error : any){
+        thunkApi.rejectWithValue(error.response?.data );
+    }
+})
+
 export const createCourse : any = createAsyncThunk("courses/createCourse", async (courseCred, thunkApi) => {
     try{
         const response = await api.post("/courses", courseCred);
@@ -71,12 +81,20 @@ export const createCourse : any = createAsyncThunk("courses/createCourse", async
         thunkApi.rejectWithValue(error.response?.data );
     }
 })
-//TODO  1- dispatch - 2onsubmit
-//Todo edit- create formları  (just for instructor)
 
-export const updateCourse : any = createAsyncThunk("courses/updateCourse", async (courseCred, thunkApi) => {
+export const updateCourse : any = createAsyncThunk("courses/updateCourse", async (courseCred : Course, thunkApi) => {
     try{
-        const response = await api.put("/courses", courseCred);
+        const response = await api.put(`/courses/${courseCred.id}`, courseCred);
+        return response.data;
+    }
+    catch(error : any){
+        thunkApi.rejectWithValue(error.response?.data );
+    }
+})
+
+export const addStudentToCourse : any = createAsyncThunk("courses/addStudent", async (enrollmentCreateDto : any, thunkApi) => {
+    try{
+        const response = await api.post(`/enrollments`, enrollmentCreateDto);
         return response.data;
     }
     catch(error : any){
@@ -110,6 +128,17 @@ export const courseSlice : any = createSlice({
             state.courses = action.payload;
         })
         builder.addCase(getInstructorCourses.rejected, (state, action) => {
+            state.loading = false;
+        })
+
+        builder.addCase(getCourseById.pending, (state, action) => {
+            state.loading = true;
+        })
+        builder.addCase(getCourseById.fulfilled, (state, action) => {
+            state.loading = false;
+            state.course = action.payload;
+        })
+        builder.addCase(getCourseById.rejected, (state, action) => {
             state.loading = false;
         })
 

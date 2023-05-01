@@ -30,12 +30,9 @@ const CourseDashboard = ({courses}: CourseDashboardProps) => {
 
     const user = useSelector((state : any) => state.security.user);
 
-    // TODO BU SUBMITI GIDIP CARDA TIKLAYINCA YONLENDIRMESI ICIN AYARLAMAK LAZIM ben navigatesini yaptım dispatch kısmı sende
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>, course : Course) => {
         e.preventDefault();
-        dispatch(createCourse(course));
-        dispatch(getInstructorCourses(user.id));
-        navigate(`/course/${course.courseCode}`);
+        navigate(`/course/${course.id}`);
     };
 
     return (
@@ -48,8 +45,8 @@ const CourseDashboard = ({courses}: CourseDashboardProps) => {
         >
             {courses && courses.map((course: Course) => (
                 <Card
-
-                    key={course.courseId}
+                    onClick={(e : any) => handleSubmit(e, course)}
+                    key={course.id}
                     style={{
                         backgroundColor: '#fff',
                         width: '320px',

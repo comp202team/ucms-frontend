@@ -14,6 +14,8 @@ import NotFound from './Libs/NotFound';
 import {Box} from "@mui/material";
 import InstructorRoute from './Libs/InstructorRoute';
 import { CourseForm } from './Components/Pages/CourseCreatePage';
+import { UpdateCoursePage } from './Components/Pages/UpdateCoursePage';
+import CourseDetailPage from './Components/Pages/CourseDetailPage';
 
 
 function App() {
@@ -46,6 +48,7 @@ function App() {
                         <Route path="/register" element={<RegisterPage/>}/>
                         <Route path="/dashboard" element={<ProtectedRoute><TrueCheck/></ProtectedRoute>}/>
                         <Route path='/createCourse' element={<InstructorRoute><CourseForm/></InstructorRoute>}/>
+                        <Route path='/course/:courseId' element={<ProtectedRoute><CourseDetailPage/></ProtectedRoute>}/>
                         <Route path='*' element={<NotFound/>}/>
                     </Routes>
                 </Box>

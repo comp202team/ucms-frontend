@@ -1,24 +1,26 @@
-import React, { useState } from "react";
-import {Course, createCourse, Department, getInstructorCourses, Instructor} from "../../Store/courseSlice";
+import React, { useState, useEffect } from "react";
+import {addStudentToCourse, Course, createCourse, Department, getInstructorCourses, Instructor, updateCourse} from "../../Store/courseSlice";
 import {Button, TextField, Typography} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-// TODO DISPATCH ILE EZBERE OLDU BURASI
-// TODO ALTTTAKI SUBMIT BUTONU BU ÖĞRENCI EKLEME ISTEĞINI ATMALI
-export const UpdateCoursePage: React.FC = () => {
+interface Props {
+    course: Course
+}
+
+export const UpdateCoursePage: React.FC<Props> = ({course}) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const user = useSelector((state : any) => state.security.user);
 
     const departments : any = [];
-        // TODO COURSEDEN GELENLERI YANSITMALIYIZ su an default bos kalıyo
-    const [course, setCourse] = useState({
-        courseCode: "",
-        courseName: "",
-        courseDesc: "",
-        creditHours: 0,
+    const [courseState, setCourse] = useState({
+        id: course.id,
+        courseCode: course.courseCode,
+        courseName:  course.courseName,
+        courseDesc: course.courseDesc,
+        creditHours: course.creditHours,
         department: {
             departmentId: 0,
             departmentName: "",
@@ -26,11 +28,13 @@ export const UpdateCoursePage: React.FC = () => {
             departmentHead: "",
         },
     });
+
+    const [studentEmail, setStudentEmail] = useState("");
+
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        dispatch(createCourse(course));
+        dispatch(updateCourse(courseState));
         dispatch(getInstructorCourses(user.id));
-        navigate("/dashboard");
     };
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,13 +49,17 @@ export const UpdateCoursePage: React.FC = () => {
         }));
     };
 
+    const handleAddStudent = () => {
+        dispatch(addStudentToCourse({email: studentEmail, courseId: course.id}))
+    }
+
     return (
         <form onSubmit={handleSubmit}>
             <Typography variant="h4" margin={2}>Create Course</Typography>
             <TextField
                 label="Course Code"
                 name="courseCode"
-                value={course.courseCode}
+                value={courseState.courseCode}
                 onChange={handleChange}
                 required
                 fullWidth
@@ -60,7 +68,7 @@ export const UpdateCoursePage: React.FC = () => {
             <TextField
                 label="Course Name"
                 name="courseName"
-                value={course.courseName}
+                value={courseState.courseName}
                 onChange={handleChange}
                 required
                 fullWidth
@@ -69,7 +77,7 @@ export const UpdateCoursePage: React.FC = () => {
             <TextField
                 label="Course Description"
                 name="courseDesc"
-                value={course.courseDesc}
+                value={courseState.courseDesc}
                 onChange={handleChange}
                 required
                 fullWidth
@@ -79,41 +87,27 @@ export const UpdateCoursePage: React.FC = () => {
                 label="Credit Hours"
                 name="creditHours"
                 type="number"
-                value={course.creditHours}
+                value={courseState.creditHours}
                 onChange={handleChange}
                 required
                 fullWidth
                 sx={{margin:2}}
             />
-            <TextField
-                select
-                label="Department"
-                name="department"
-                value={course.department.departmentId}
-                onChange={handleSelectChange}
-                fullWidth
-                sx={{margin:2}}
-            >
-                {departments.map((dep : any) => (
-                    <option key={dep.departmentId} value={dep.departmentId}>
-                        {dep.departmentName}
-                    </option>
-                ))}
-            </TextField>
             <Button type="submit" variant="contained" color="primary" sx={{margin:2}}>
-                Create
+                Update
             </Button>
 
             <TextField
                 label = "Add Student"
                 name  = "Add Student"
                 type={"email"}
-                onChange={handleSelectChange}
-                sx={{margin:2}}
+                value={studentEmail}
+                onChange={(e: any) => setStudentEmail(e.target.value)}
+                sx={{margin:2, display:"block"}}
             >
             </TextField>
 
-            <Button type="submit" variant="contained" color="primary" sx={{margin:2}}>
+            <Button onClick={() => handleAddStudent()} variant="contained" color="primary" sx={{margin:2}}>
                 Add Student
             </Button>
         </form>
