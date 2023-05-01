@@ -1,12 +1,43 @@
 import {Box, Card, CardContent, Typography} from '@mui/material';
-import React from 'react';
-import {Course} from "../../Store/courseSlice";
+import React, {useState} from 'react';
+import {Course, createCourse, getInstructorCourses} from "../../Store/courseSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";
 
 type CourseDashboardProps = {
     courses: Course[];
 };
 
 const CourseDashboard = ({courses}: CourseDashboardProps) => {
+
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+
+    const [course, setCourse] = useState({
+        courseCode: "",
+        courseName: "",
+        courseDesc: "",
+        creditHours: 0,
+        department: {
+            departmentId: 0,
+            departmentName: "",
+            departmentCode: "",
+            departmentHead: "",
+        },
+    });
+
+    const user = useSelector((state : any) => state.security.user);
+
+    // TODO BU SUBMITI GIDIP CARDA TIKLAYINCA YONLENDIRMESI ICIN AYARLAMAK LAZIM ben navigatesini yaptım dispatch kısmı sende
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        dispatch(createCourse(course));
+        dispatch(getInstructorCourses(user.id));
+        navigate(`/course/${course.courseCode}`);
+    };
+
     return (
         <Box
             display="flex"
@@ -17,7 +48,8 @@ const CourseDashboard = ({courses}: CourseDashboardProps) => {
         >
             {courses && courses.map((course: Course) => (
                 <Card
-                    key={course.id}
+
+                    key={course.courseId}
                     style={{
                         backgroundColor: '#fff',
                         width: '320px',

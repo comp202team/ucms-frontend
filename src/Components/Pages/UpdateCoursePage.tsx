@@ -4,15 +4,16 @@ import {Button, TextField, Typography} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-
-export const CourseForm: React.FC = () => {
+// TODO DISPATCH ILE EZBERE OLDU BURASI
+// TODO ALTTTAKI SUBMIT BUTONU BU ÖĞRENCI EKLEME ISTEĞINI ATMALI
+export const UpdateCoursePage: React.FC = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const user = useSelector((state : any) => state.security.user);
 
     const departments : any = [];
-
+        // TODO COURSEDEN GELENLERI YANSITMALIYIZ su an default bos kalıyo
     const [course, setCourse] = useState({
         courseCode: "",
         courseName: "",
@@ -25,7 +26,6 @@ export const CourseForm: React.FC = () => {
             departmentHead: "",
         },
     });
-
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         dispatch(createCourse(course));
@@ -102,6 +102,19 @@ export const CourseForm: React.FC = () => {
             </TextField>
             <Button type="submit" variant="contained" color="primary" sx={{margin:2}}>
                 Create
+            </Button>
+
+            <TextField
+                label = "Add Student"
+                name  = "Add Student"
+                type={"email"}
+                onChange={handleSelectChange}
+                sx={{margin:2}}
+            >
+            </TextField>
+
+            <Button type="submit" variant="contained" color="primary" sx={{margin:2}}>
+                Add Student
             </Button>
         </form>
     );
