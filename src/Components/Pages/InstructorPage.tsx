@@ -16,7 +16,7 @@ const InstructorPage = (props: Props) => {
 
   useEffect(() => {
     dispatch(getInstructorCourses(user.id));
-  })
+  }, [])
 
   return (
       <Box className="container">

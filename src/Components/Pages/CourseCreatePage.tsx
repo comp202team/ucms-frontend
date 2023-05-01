@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import {Course, createCourse, Department, Instructor} from "../../Store/courseSlice";
+import {Course, createCourse, Department, getInstructorCourses, Instructor} from "../../Store/courseSlice";
 import {Button, TextField, Typography} from "@mui/material";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 interface CourseFormProps {}
@@ -9,6 +9,8 @@ interface CourseFormProps {}
 export const CourseForm: React.FC<CourseFormProps> = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const user = useSelector((state : any) => state.security.user);
 
     const departments : any = [];
 
@@ -28,6 +30,7 @@ export const CourseForm: React.FC<CourseFormProps> = () => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         dispatch(createCourse(course));
+        dispatch(getInstructorCourses(user.id));
         navigate("/dashboard");
     };
 
