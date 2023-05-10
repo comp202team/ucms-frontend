@@ -29,6 +29,8 @@ export const UpdateCoursePage: React.FC<Props> = ({course}) => {
         },
     });
 
+    const [addStudentControl, setAddStudentControl] = useState(false);
+
     const [studentEmail, setStudentEmail] = useState("");
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -51,11 +53,12 @@ export const UpdateCoursePage: React.FC<Props> = ({course}) => {
 
     const handleAddStudent = () => {
         dispatch(addStudentToCourse({email: studentEmail, courseId: course.id}))
+        setAddStudentControl(true)
     }
 
     return (
         <form onSubmit={handleSubmit}>
-            <Typography variant="h4" margin={2}>Create Course</Typography>
+            <Typography variant="h4" margin={2}>Update Course</Typography>
             <TextField
                 label="Course Code"
                 name="courseCode"
@@ -106,6 +109,8 @@ export const UpdateCoursePage: React.FC<Props> = ({course}) => {
                 sx={{margin:2, display:"block"}}
             >
             </TextField>
+
+            {addStudentControl && <Typography marginX={2} color={"#81c784"}>Student added to course</Typography>}
 
             <Button onClick={() => handleAddStudent()} variant="contained" color="primary" sx={{margin:2}}>
                 Add Student

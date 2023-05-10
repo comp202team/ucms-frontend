@@ -115,6 +115,18 @@ const CourseDashboard = ({courses}: CourseDashboardProps) => {
                         >
                             Instructor: {course.instructor != null && (course.instructor.firstName + " " + course.instructor.lastName)}
                         </Typography>
+
+                        <Typography
+                            variant="body2"
+                            component="p"
+                            style={{
+                                fontSize: '14px',
+                                color: '#888'
+                            }}
+                        >
+                            Department: {course.department != null && (course.department.departmentName)}
+                        </Typography>
+                        
                     </CardContent>
                 </Card>
             ))}

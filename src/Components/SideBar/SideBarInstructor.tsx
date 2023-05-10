@@ -35,7 +35,7 @@ export const SideBarInstructor: React.FC = () => {
                 
                 <ListItem button>
                     <ListItemIcon><PersonIcon/></ListItemIcon>
-                    <ListItemText primary="Sınavlar"/>
+                    <ListItemText primary="Exams"/>
                 </ListItem>
 
                 </List>
