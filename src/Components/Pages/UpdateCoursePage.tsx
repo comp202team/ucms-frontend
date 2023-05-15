@@ -1,8 +1,22 @@
-import React, { useState, useEffect } from "react";
-import {addStudentToCourse, Course, createAssignment, createCourse, Department, getAssignmentsByCourseCode, getInstructorCourses, Instructor, updateCourse} from "../../Store/courseSlice";
+import React, {useState, useEffect} from "react";
+import {
+    addStudentToCourse,
+    Course,
+    createAssignment,
+    createCourse,
+    Department,
+    getAssignmentsByCourseCode,
+    getInstructorCourses,
+    Instructor,
+    updateCourse
+} from "../../Store/courseSlice";
 import {Button, TextField, Typography} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
+import {DatePicker} from "@mui/x-date-pickers";
+import dayjs, {Dayjs} from "dayjs";
+import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
+import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 
 interface Props {
     course: Course
@@ -12,13 +26,13 @@ export const UpdateCoursePage: React.FC<Props> = ({course}) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const user = useSelector((state : any) => state.security.user);
+    const user = useSelector((state: any) => state.security.user);
 
-    const departments : any = [];
+    const departments: any = [];
     const [courseState, setCourse] = useState({
         id: course.id,
         courseCode: course.courseCode,
-        courseName:  course.courseName,
+        courseName: course.courseName,
         courseDesc: course.courseDesc,
         creditHours: course.creditHours,
         department: {
@@ -47,8 +61,8 @@ export const UpdateCoursePage: React.FC<Props> = ({course}) => {
         dispatch(updateCourse(courseState));
         dispatch(getInstructorCourses(user.id));
     };
-    
-    const handleAssignmentSubmit = (e:any) => {
+
+    const handleAssignmentSubmit = (e: any) => {
         dispatch(createAssignment(assignmentState)).then(() => {
             dispatch(getAssignmentsByCourseCode(course.courseCode))
         });
@@ -56,22 +70,17 @@ export const UpdateCoursePage: React.FC<Props> = ({course}) => {
     };
 
     const handleCourseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-        setCourse((prevCourse) => ({ ...prevCourse, [name]: value }));
+        const {name, value} = event.target;
+        setCourse((prevCourse) => ({...prevCourse, [name]: value}));
     };
 
     const handleAssignmentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-        setAssignment((prevAssignment) => ({ ...prevAssignment, [name]: value }));
+        const {name, value} = event.target;
+        setAssignment((prevAssignment) => ({...prevAssignment, [name]: value}));
     };
 
-    const handleSelectChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = event.target;
-        setCourse((prevCourse) => ({
-            ...prevCourse,
-            [name]: departments.find((dep : any) => dep.departmentId === value),
-        }));
-    };
+
+    const [value, setValue] = useState<Dayjs | null>(dayjs('2022-04-17'));
 
     const handleAddStudent = () => {
         dispatch(addStudentToCourse({email: studentEmail, courseId: course.id}))
@@ -80,91 +89,107 @@ export const UpdateCoursePage: React.FC<Props> = ({course}) => {
 
     return (
         <>
-        <form onSubmit={handleSubmit}>
-            <Typography variant="h4" margin={2}>Update Course</Typography>
-            <TextField
-                label="Course Code"
-                name="courseCode"
-                value={courseState.courseCode}
-                onChange={handleCourseChange}
-                required
-                fullWidth
-                sx={{margin:2}}
-            />
-            <TextField
-                label="Course Name"
-                name="courseName"
-                value={courseState.courseName}
-                onChange={handleCourseChange}
-                required
-                fullWidth
-                sx={{margin:2}}
-            />
-            <TextField
-                label="Course Description"
-                name="courseDesc"
-                value={courseState.courseDesc}
-                onChange={handleCourseChange}
-                required
-                fullWidth
-                sx={{margin:2}}
-            />
-            <TextField
-                label="Credit Hours"
-                name="creditHours"
-                type="number"
-                value={courseState.creditHours}
-                onChange={handleCourseChange}
-                required
-                fullWidth
-                sx={{margin:2}}
-            />
-            <Button type="submit" variant="contained" color="primary" sx={{margin:2}}>
-                Update
-            </Button>
+            <form onSubmit={handleSubmit}>
+                <Typography variant="h4" margin={2}>Update Course</Typography>
+                <TextField
+                    label="Course Code"
+                    name="courseCode"
+                    value={courseState.courseCode}
+                    onChange={handleCourseChange}
+                    required
+                    fullWidth
+                    sx={{margin: 2}}
+                />
+                <TextField
+                    label="Course Name"
+                    name="courseName"
+                    value={courseState.courseName}
+                    onChange={handleCourseChange}
+                    required
+                    fullWidth
+                    sx={{margin: 2}}
+                />
+                <TextField
+                    label="Course Description"
+                    name="courseDesc"
+                    value={courseState.courseDesc}
+                    onChange={handleCourseChange}
+                    required
+                    fullWidth
+                    sx={{margin: 2}}
+                />
+                <TextField
+                    label="Credit Hours"
+                    name="creditHours"
+                    type="number"
+                    value={courseState.creditHours}
+                    onChange={handleCourseChange}
+                    required
+                    fullWidth
+                    sx={{margin: 2}}
+                />
+                <Button type="submit" variant="contained" color="primary" sx={{margin: 2}}>
+                    Update
+                </Button>
 
-            <TextField
-                label = "Add Student"
-                name  = "Add Student"
-                type={"email"}
-                value={studentEmail}
-                onChange={(e: any) => setStudentEmail(e.target.value)}
-                sx={{margin:2, display:"block"}}
-            >
-            </TextField>
+                <TextField
+                    label="Add Student"
+                    name="Add Student"
+                    type={"email"}
+                    value={studentEmail}
+                    onChange={(e: any) => setStudentEmail(e.target.value)}
+                    sx={{margin: 2, display: "block"}}
+                >
+                </TextField>
 
-            {addStudentControl && <Typography marginX={2} color={"#81c784"}>Student added to course</Typography>}
+                {addStudentControl && <Typography marginX={2} color={"#81c784"}>Student added to course</Typography>}
 
-            <Button onClick={() => handleAddStudent()} variant="contained" color="primary" sx={{margin:2}}>
-                Add Student
-            </Button>
-        </form>
-        <form>
-        <Typography variant="h4" margin={2}>Create Assignment</Typography>
-            <TextField
-                label="Assignment Title"
-                name="name"
-                value={assignmentState.name}
-                onChange={handleAssignmentChange}
-                required
-                fullWidth
-                sx={{margin:2}}
-            />
-            <TextField
-                label="Assignment Description"
-                name="description"
-                value={assignmentState.description}
-                onChange={handleAssignmentChange}
-                required
-                fullWidth
-                sx={{margin:2}}
-            />
+                <Button onClick={() => handleAddStudent()} variant="contained" color="primary" sx={{margin: 2}}>
+                    Add Student
+                </Button>
+            </form>
+            <form>
+                <Typography variant="h4" margin={2}>Create Assignment</Typography>
+                <TextField
+                    label="Assignment Title"
+                    name="name"
+                    value={assignmentState.name}
+                    onChange={handleAssignmentChange}
+                    required
+                    fullWidth
+                    sx={{margin: 2}}
+                />
+                <TextField
+                    label="Assignment Description"
+                    name="description"
+                    value={assignmentState.description}
+                    onChange={handleAssignmentChange}
+                    required
+                    fullWidth
+                    sx={{margin: 2}}
+                />
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                        sx={{margin  : 2}}
+                        label="Deadline"
+                        value={value}
+                        onChange={(newValue) => {
+                            setValue(newValue);
+                            if (newValue) {
+                                const formattedDate = newValue.format("YYYY-MM-DD");
+                                setAssignment((prevAssignment) => ({...prevAssignment, deadline: formattedDate}));
+                            }
+                        }}
+                    />
 
-            {assignmentControl && <Typography marginX={2} color={"#81c784"}>Assignment created</Typography>}
-            <Button onClick={handleAssignmentSubmit} variant="contained" color="primary" sx={{margin:2, marginBottom:5}}>
-                Create
-            </Button>
-        </form>
+
+                </LocalizationProvider>
+                {assignmentControl && <Typography marginX={2} color={"#81c784"}>Assignment created</Typography>}
+                <Button onClick={handleAssignmentSubmit} variant="contained" color="primary"
+                        sx={{margin: 2, marginBottom: 5}}>
+                    Create
+                </Button>
+            </form>
         </>
     );
 };
