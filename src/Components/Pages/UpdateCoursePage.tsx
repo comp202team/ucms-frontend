@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {addStudentToCourse, Course, createCourse, Department, getInstructorCourses, Instructor, updateCourse} from "../../Store/courseSlice";
+import {addStudentToCourse, Course, createAssignment, createCourse, Department, getAssignmentsByCourseCode, getInstructorCourses, Instructor, updateCourse} from "../../Store/courseSlice";
 import {Button, TextField, Typography} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -29,7 +29,16 @@ export const UpdateCoursePage: React.FC<Props> = ({course}) => {
         },
     });
 
+    const [assignmentState, setAssignment] = useState({
+        courseCode: course.courseCode,
+        name: "",
+        description: "",
+        deadline: "2023-05-16",
+    });
+
     const [addStudentControl, setAddStudentControl] = useState(false);
+
+    const [assignmentControl, setAssignmentControl] = useState(false);
 
     const [studentEmail, setStudentEmail] = useState("");
 
@@ -38,11 +47,24 @@ export const UpdateCoursePage: React.FC<Props> = ({course}) => {
         dispatch(updateCourse(courseState));
         dispatch(getInstructorCourses(user.id));
     };
+    
+    const handleAssignmentSubmit = (e:any) => {
+        dispatch(createAssignment(assignmentState)).then(() => {
+            dispatch(getAssignmentsByCourseCode(course.courseCode))
+        });
+        setAssignmentControl(true);
+    };
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleCourseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         setCourse((prevCourse) => ({ ...prevCourse, [name]: value }));
     };
+
+    const handleAssignmentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = event.target;
+        setAssignment((prevAssignment) => ({ ...prevAssignment, [name]: value }));
+    };
+
     const handleSelectChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = event.target;
         setCourse((prevCourse) => ({
@@ -57,13 +79,14 @@ export const UpdateCoursePage: React.FC<Props> = ({course}) => {
     }
 
     return (
+        <>
         <form onSubmit={handleSubmit}>
             <Typography variant="h4" margin={2}>Update Course</Typography>
             <TextField
                 label="Course Code"
                 name="courseCode"
                 value={courseState.courseCode}
-                onChange={handleChange}
+                onChange={handleCourseChange}
                 required
                 fullWidth
                 sx={{margin:2}}
@@ -72,7 +95,7 @@ export const UpdateCoursePage: React.FC<Props> = ({course}) => {
                 label="Course Name"
                 name="courseName"
                 value={courseState.courseName}
-                onChange={handleChange}
+                onChange={handleCourseChange}
                 required
                 fullWidth
                 sx={{margin:2}}
@@ -81,7 +104,7 @@ export const UpdateCoursePage: React.FC<Props> = ({course}) => {
                 label="Course Description"
                 name="courseDesc"
                 value={courseState.courseDesc}
-                onChange={handleChange}
+                onChange={handleCourseChange}
                 required
                 fullWidth
                 sx={{margin:2}}
@@ -91,7 +114,7 @@ export const UpdateCoursePage: React.FC<Props> = ({course}) => {
                 name="creditHours"
                 type="number"
                 value={courseState.creditHours}
-                onChange={handleChange}
+                onChange={handleCourseChange}
                 required
                 fullWidth
                 sx={{margin:2}}
@@ -116,5 +139,32 @@ export const UpdateCoursePage: React.FC<Props> = ({course}) => {
                 Add Student
             </Button>
         </form>
+        <form>
+        <Typography variant="h4" margin={2}>Create Assignment</Typography>
+            <TextField
+                label="Assignment Title"
+                name="name"
+                value={assignmentState.name}
+                onChange={handleAssignmentChange}
+                required
+                fullWidth
+                sx={{margin:2}}
+            />
+            <TextField
+                label="Assignment Description"
+                name="description"
+                value={assignmentState.description}
+                onChange={handleAssignmentChange}
+                required
+                fullWidth
+                sx={{margin:2}}
+            />
+
+            {assignmentControl && <Typography marginX={2} color={"#81c784"}>Assignment created</Typography>}
+            <Button onClick={handleAssignmentSubmit} variant="contained" color="primary" sx={{margin:2, marginBottom:5}}>
+                Create
+            </Button>
+        </form>
+        </>
     );
 };

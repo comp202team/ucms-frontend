@@ -31,12 +31,14 @@ interface CourseState{
     courses: Course[];
     course: Course;
     loading: boolean;
+    assignments: any[];
 }
 
 const initialState: CourseState = {
     courses: [],
     course: {} as Course,
     loading: true,
+    assignments: [],
 };
 
 
@@ -102,6 +104,25 @@ export const addStudentToCourse : any = createAsyncThunk("courses/addStudent", a
     }
 })
 
+export const createAssignment : any = createAsyncThunk("couses/createAssignment", async (data : any, thunkApi) => {
+    try{
+        const response = await api.post(`/assignments?code=${data.courseCode}`, data);
+        return response.data;
+    }
+    catch(error : any){
+        thunkApi.rejectWithValue(error.response?.data );
+    }
+})
+
+export const getAssignmentsByCourseCode : any = createAsyncThunk("assignments/getAssignmentsByCourseCode", async (courseCode, thunkApi) => {
+    try{
+        const response = await api.get(`/assignments/course?code=${courseCode}`);
+        return response.data;
+    }
+    catch(error : any){
+        thunkApi.rejectWithValue(error.response?.data );
+    }
+})
 
 export const courseSlice : any = createSlice({
     name:"course",
@@ -161,6 +182,33 @@ export const courseSlice : any = createSlice({
             state.course = action.payload;
         })
         builder.addCase(updateCourse.rejected, (state, action) => {
+            state.loading = false;  
+        })
+
+        
+        builder.addCase(createAssignment.pending, (state, action) => {
+            state.loading = true;
+        })
+
+        builder.addCase(createAssignment.fulfilled, (state, action) => {
+            state.loading = false;
+            state.assignments.push(action.payload);
+        })
+
+        builder.addCase(createAssignment.rejected, (state, action) => {
+            state.loading = false;  
+        })
+
+        builder.addCase(getAssignmentsByCourseCode.pending, (state, action) => {
+            state.loading = true;
+        })
+
+        builder.addCase(getAssignmentsByCourseCode.fulfilled, (state, action) => {
+            state.loading = false;
+            state.assignments = action.payload;
+        })
+
+        builder.addCase(getAssignmentsByCourseCode.rejected, (state, action) => {
             state.loading = false;  
         })
     }
