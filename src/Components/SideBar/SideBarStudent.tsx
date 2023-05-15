@@ -30,7 +30,7 @@ export const SideBarStudent: React.FC = () => {
                                 <ListItemText primary="Courses"/>
                             </ListItem>
 
-                            <ListItem button>
+                            <ListItem button onClick={() => navigate("/assignments")}>
                                 <ListItemIcon><PersonIcon/></ListItemIcon>
                                 <ListItemText primary="Assignments"/>
                             </ListItem>

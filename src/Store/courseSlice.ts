@@ -124,6 +124,16 @@ export const getAssignmentsByCourseCode : any = createAsyncThunk("assignments/ge
     }
 })
 
+export const getAssignmentsByStudentId : any = createAsyncThunk("assignments/getAssignmentsByStudentId", async (studentId, thunkApi) => {
+    try{
+        const response = await api.get(`/assignments/student/${studentId}`);
+        return response.data;
+    }
+    catch(error : any){
+        thunkApi.rejectWithValue(error.response?.data );
+    }
+})
+
 export const courseSlice : any = createSlice({
     name:"course",
     initialState,
@@ -209,6 +219,20 @@ export const courseSlice : any = createSlice({
         })
 
         builder.addCase(getAssignmentsByCourseCode.rejected, (state, action) => {
+            state.loading = false;  
+        })
+
+        
+        builder.addCase(getAssignmentsByStudentId.pending, (state, action) => {
+            state.loading = true;
+        })
+
+        builder.addCase(getAssignmentsByStudentId.fulfilled, (state, action) => {
+            state.loading = false;
+            state.assignments = action.payload;
+        })
+
+        builder.addCase(getAssignmentsByStudentId.rejected, (state, action) => {
             state.loading = false;  
         })
     }

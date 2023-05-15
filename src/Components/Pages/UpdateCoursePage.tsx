@@ -5,7 +5,7 @@ import {
     createAssignment,
     createCourse,
     Department,
-    getAssignmentsByCourseCode,
+    getAssignmentsByStudentId,
     getInstructorCourses,
     Instructor,
     updateCourse
@@ -64,7 +64,7 @@ export const UpdateCoursePage: React.FC<Props> = ({course}) => {
 
     const handleAssignmentSubmit = (e: any) => {
         dispatch(createAssignment(assignmentState)).then(() => {
-            dispatch(getAssignmentsByCourseCode(course.courseCode))
+            dispatch(getAssignmentsByStudentId(course.courseCode))
         });
         setAssignmentControl(true);
     };
