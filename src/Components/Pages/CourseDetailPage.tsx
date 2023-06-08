@@ -45,7 +45,7 @@ const CourseDetailPage = (props: any) => {
                             </Typography>
                         </CardContent>
                     </Card>)}
-                    
+
                     <Typography sx={{margin: 2, fontSize : 24}}>Assignments</Typography>
 
                     {assignments && assignments.map((assignment: any) =>
@@ -81,6 +81,19 @@ const CourseDetailPage = (props: any) => {
                     <Typography >Credit Hours : {course.creditHours}</Typography>
                     <Typography >Instructor : {course.instructor && course.instructor.firstName} {course.instructor && course.instructor.lastName}</Typography>
 
+                    <Typography sx={{marginY: 2, fontSize : 24}}>Annoucements</Typography>
+                          {annoucements && annoucements.map((annoucement: any) =>
+                            <Card sx={{maxWidth: 500, margin: 2}} key={annoucement.id}>
+                                <CardContent>
+                                    <Typography variant="h5" component="div">
+                                        {annoucement.title}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        {annoucement.description}
+                                    </Typography>
+                                </CardContent>
+                            </Card>)}
+
                       <Typography sx={{marginY: 2, fontSize : 24}}>Assignments</Typography>
 
                       {assignments && assignments.map((assignment: any) =>
@@ -102,19 +115,6 @@ const CourseDetailPage = (props: any) => {
                                   </Box>
                               </CardContent>
                           </Card>)}
-
-                          <Typography sx={{marginY: 2, fontSize : 24}}>Annoucements</Typography>
-                          {annoucements && annoucements.map((annoucement: any) =>
-                            <Card sx={{maxWidth: 500, margin: 2}} key={annoucement.id}>
-                                <CardContent>
-                                    <Typography variant="h5" component="div">
-                                        {annoucement.title}
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        {annoucement.description}
-                                    </Typography>
-                                </CardContent>
-                            </Card>)}
                   </Box>
                 </>
             }
