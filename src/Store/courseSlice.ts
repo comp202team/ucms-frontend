@@ -32,6 +32,7 @@ interface CourseState{
     course: Course;
     loading: boolean;
     assignments: any[];
+    announcements: any[];
 }
 
 const initialState: CourseState = {
@@ -39,6 +40,7 @@ const initialState: CourseState = {
     course: {} as Course,
     loading: true,
     assignments: [],
+    announcements: [],
 };
 
 
@@ -104,7 +106,7 @@ export const addStudentToCourse : any = createAsyncThunk("courses/addStudent", a
     }
 })
 
-export const createAssignment : any = createAsyncThunk("couses/createAssignment", async (data : any, thunkApi) => {
+export const createAssignment : any = createAsyncThunk("courses/createAssignment", async (data : any, thunkApi) => {
     try{
         const response = await api.post(`/assignments?code=${data.courseCode}`, data);
         return response.data;
@@ -127,6 +129,36 @@ export const getAssignmentsByCourseCode : any = createAsyncThunk("assignments/ge
 export const getAssignmentsByStudentId : any = createAsyncThunk("assignments/getAssignmentsByStudentId", async (studentId, thunkApi) => {
     try{
         const response = await api.get(`/assignments/student/${studentId}`);
+        return response.data;
+    }
+    catch(error : any){
+        thunkApi.rejectWithValue(error.response?.data );
+    }
+})
+
+export const createAnnouncement : any = createAsyncThunk("courses/createAnnouncement", async (data : any, thunkApi) => {
+    try{
+        const response = await api.post(`/announcements`, data);
+        return response.data;
+    }
+    catch(error : any){
+        thunkApi.rejectWithValue(error.response?.data );
+    }
+})
+
+export const getAnnouncementsByCourseId : any = createAsyncThunk("announcements/getAnnouncementsByCourseId", async (courseId, thunkApi) => {
+    try{
+        const response = await api.get(`/announcements/course/${courseId}`);
+        return response.data;
+    }
+    catch(error : any){
+        thunkApi.rejectWithValue(error.response?.data );
+    }
+})
+
+export const getAnnouncementsByStudentId : any = createAsyncThunk("announcements/getAnnouncementsByStudentId", async (studentId, thunkApi) => {
+    try{
+        const response = await api.get(`/annoucements/student/${studentId}`);
         return response.data;
     }
     catch(error : any){
@@ -233,6 +265,47 @@ export const courseSlice : any = createSlice({
         })
 
         builder.addCase(getAssignmentsByStudentId.rejected, (state, action) => {
+            state.loading = false;  
+        })
+
+
+        builder.addCase(createAnnouncement.pending, (state, action) => {
+            state.loading = true;
+        })
+
+        builder.addCase(createAnnouncement.fulfilled, (state, action) => {
+            state.loading = false;
+            state.announcements.push(action.payload);
+        })
+
+        builder.addCase(createAnnouncement.rejected, (state, action) => {
+            state.loading = false;  
+        })
+
+        builder.addCase(getAnnouncementsByCourseId.pending, (state, action) => {
+            state.loading = true;
+        })
+
+        builder.addCase(getAnnouncementsByCourseId.fulfilled, (state, action) => {
+            state.loading = false;
+            state.announcements = action.payload;
+        })
+
+        builder.addCase(getAnnouncementsByCourseId.rejected, (state, action) => {
+            state.loading = false;  
+        })
+
+        
+        builder.addCase(getAnnouncementsByStudentId.pending, (state, action) => {
+            state.loading = true;
+        })
+
+        builder.addCase(getAnnouncementsByStudentId.fulfilled, (state, action) => {
+            state.loading = false;
+            state.announcements = action.payload;
+        })
+
+        builder.addCase(getAnnouncementsByStudentId.rejected, (state, action) => {
             state.loading = false;  
         })
     }

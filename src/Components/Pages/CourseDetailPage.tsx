@@ -2,7 +2,7 @@ import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {UpdateCoursePage} from './UpdateCoursePage';
 import {useParams} from 'react-router-dom';
-import {getAssignmentsByCourseCode, getCourseById} from '../../Store/courseSlice';
+import {getAnnouncementsByCourseId, getAssignmentsByCourseCode, getCourseById} from '../../Store/courseSlice';
 import {Box, Card, CardContent, Typography} from "@mui/material";
 
 
@@ -15,11 +15,14 @@ const CourseDetailPage = (props: any) => {
     const isInstructor = useSelector((state: any) => state.security.isInstructor);
     const course = useSelector((state: any) => state.course.course);
     const assignments = useSelector((state: any) => state.course.assignments);
+    const annoucements = useSelector((state: any) => state.course.announcements);
+
 
     useEffect(() => {
         dispatch(getCourseById(courseId)).then((response: any) => {
             if (!response.error) {
                 dispatch(getAssignmentsByCourseCode(response.payload.courseCode))
+                dispatch(getAnnouncementsByCourseId(courseId)).then(() => console.log(annoucements))
             }
         });
     }, [])
@@ -28,10 +31,25 @@ const CourseDetailPage = (props: any) => {
             {isInstructor ?
                 <Box sx={{marginBottom: 5}}>
                     <UpdateCoursePage course={course}/>
+
+                    <Typography sx={{margin: 2, fontSize : 24}}>Annoucements</Typography>
+
+                    {annoucements && annoucements.map((annoucement: any) =>
+                    <Card sx={{maxWidth: 500, margin: 2}} key={annoucement.id}>
+                        <CardContent>
+                            <Typography variant="h5" component="div">
+                                {annoucement.title}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                                {annoucement.description}
+                            </Typography>
+                        </CardContent>
+                    </Card>)}
+                    
                     <Typography sx={{margin: 2, fontSize : 24}}>Assignments</Typography>
 
                     {assignments && assignments.map((assignment: any) =>
-                        <Card sx={{maxWidth: 500, margin: 2}}>
+                        <Card sx={{maxWidth: 500, margin: 2}} key={assignment.id}>
                             <CardContent>
                                 <Typography variant="h5" component="div">
                                     {assignment.name}
@@ -50,6 +68,8 @@ const CourseDetailPage = (props: any) => {
                             </CardContent>
                         </Card>)}
 
+
+
                 </Box>
                 :
 
@@ -64,7 +84,7 @@ const CourseDetailPage = (props: any) => {
                       <Typography sx={{marginY: 2, fontSize : 24}}>Assignments</Typography>
 
                       {assignments && assignments.map((assignment: any) =>
-                          <Card sx={{maxWidth: 400, marginY: 2}}>
+                          <Card sx={{maxWidth: 400, marginY: 2}} key={assignment.id}>
                               <CardContent>
                                   <Typography variant="h5" component="div">
                                       {assignment.name}
@@ -83,6 +103,18 @@ const CourseDetailPage = (props: any) => {
                               </CardContent>
                           </Card>)}
 
+                          <Typography sx={{marginY: 2, fontSize : 24}}>Annoucements</Typography>
+                          {annoucements && annoucements.map((annoucement: any) =>
+                            <Card sx={{maxWidth: 500, margin: 2}} key={annoucement.id}>
+                                <CardContent>
+                                    <Typography variant="h5" component="div">
+                                        {annoucement.title}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        {annoucement.description}
+                                    </Typography>
+                                </CardContent>
+                            </Card>)}
                   </Box>
                 </>
             }

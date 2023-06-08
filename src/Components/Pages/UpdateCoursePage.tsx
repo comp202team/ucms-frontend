@@ -2,9 +2,12 @@ import React, {useState, useEffect} from "react";
 import {
     addStudentToCourse,
     Course,
+    createAnnouncement,
     createAssignment,
     createCourse,
     Department,
+    getAnnouncementsByCourseId,
+    getAssignmentsByCourseCode,
     getAssignmentsByStudentId,
     getInstructorCourses,
     Instructor,
@@ -28,7 +31,6 @@ export const UpdateCoursePage: React.FC<Props> = ({course}) => {
 
     const user = useSelector((state: any) => state.security.user);
 
-    const departments: any = [];
     const [courseState, setCourse] = useState({
         id: course.id,
         courseCode: course.courseCode,
@@ -50,9 +52,17 @@ export const UpdateCoursePage: React.FC<Props> = ({course}) => {
         deadline: "2023-05-16",
     });
 
+    const [announcementState, setAnnouncement] = useState({
+        courseId: course.id,
+        title: "",
+        description: "",
+    });
+
     const [addStudentControl, setAddStudentControl] = useState(false);
 
     const [assignmentControl, setAssignmentControl] = useState(false);
+
+    const [announcementControl, setAnnouncementControl] = useState(false);
 
     const [studentEmail, setStudentEmail] = useState("");
 
@@ -63,10 +73,17 @@ export const UpdateCoursePage: React.FC<Props> = ({course}) => {
     };
 
     const handleAssignmentSubmit = (e: any) => {
-        dispatch(createAssignment(assignmentState)).then(() => {
-            dispatch(getAssignmentsByStudentId(course.courseCode))
+        dispatch(createAssignment({...assignmentState, courseCode: course.courseCode})).then(() => {
+            dispatch(getAssignmentsByCourseCode(course.courseCode))
         });
         setAssignmentControl(true);
+    };
+
+    const handleAnnouncementSubmit = (e: any) => {
+        dispatch(createAnnouncement({...announcementState, courseId: course.id})).then(() => {
+            dispatch(getAnnouncementsByCourseId(course.id))
+        });
+        setAnnouncementControl(true);
     };
 
     const handleCourseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -77,6 +94,11 @@ export const UpdateCoursePage: React.FC<Props> = ({course}) => {
     const handleAssignmentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = event.target;
         setAssignment((prevAssignment) => ({...prevAssignment, [name]: value}));
+    };
+
+    const handleAnnouncementChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const {name, value} = event.target;
+        setAnnouncement((prevAnnouncement) => ({...prevAnnouncement, [name]: value}));
     };
 
 
@@ -148,6 +170,34 @@ export const UpdateCoursePage: React.FC<Props> = ({course}) => {
                     Add Student
                 </Button>
             </form>
+            <form>
+                <Typography variant="h4" margin={2}>Create Announcement</Typography>
+                <TextField
+                    label="Announcement Title"
+                    name="title"
+                    value={announcementState.title}
+                    onChange={handleAnnouncementChange}
+                    required
+                    fullWidth
+                    sx={{margin: 2}}
+                />
+                <TextField
+                    label="Announcement Description"
+                    name="description"
+                    value={announcementState.description}
+                    onChange={handleAnnouncementChange}
+                    required
+                    fullWidth
+                    sx={{margin: 2}}
+                />
+                
+                {announcementControl && <Typography marginX={2} color={"#81c784"}>Announcement created</Typography>}
+                <Button onClick={handleAnnouncementSubmit} variant="contained" color="primary"
+                        sx={{margin: 2, marginBottom: 5}}>
+                    Create
+                </Button>
+            </form>
+
             <form>
                 <Typography variant="h4" margin={2}>Create Assignment</Typography>
                 <TextField
