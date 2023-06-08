@@ -18,6 +18,7 @@ import { UpdateCoursePage } from './Components/Pages/UpdateCoursePage';
 import CourseDetailPage from './Components/Pages/CourseDetailPage';
 import jwt_decode from "jwt-decode";
 import AssignmentsPage from './Components/Pages/AssignmentsPage';
+import AnnouncementsPage from './Components/Pages/AnnouncementsPage';
 
 
 
@@ -64,6 +65,8 @@ function App() {
                         <Route path='/createCourse' element={<InstructorRoute><CourseForm/></InstructorRoute>}/>
                         <Route path='/course/:courseId' element={<ProtectedRoute><CourseDetailPage/></ProtectedRoute>}/>
                         <Route path='/assignments' element={<ProtectedRoute><AssignmentsPage/></ProtectedRoute>}/>
+                        <Route path='/announcements' element={<ProtectedRoute><AnnouncementsPage/></ProtectedRoute>}/>
+
                         <Route path='*' element={<NotFound/>}/>
                     </Routes>
                 </Box>

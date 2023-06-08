@@ -158,7 +158,7 @@ export const getAnnouncementsByCourseId : any = createAsyncThunk("announcements/
 
 export const getAnnouncementsByStudentId : any = createAsyncThunk("announcements/getAnnouncementsByStudentId", async (studentId, thunkApi) => {
     try{
-        const response = await api.get(`/annoucements/student/${studentId}`);
+        const response = await api.get(`/announcements/student/${studentId}`);
         return response.data;
     }
     catch(error : any){

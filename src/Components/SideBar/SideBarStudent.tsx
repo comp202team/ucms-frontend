@@ -34,6 +34,11 @@ export const SideBarStudent: React.FC = () => {
                                 <ListItemIcon><PersonIcon/></ListItemIcon>
                                 <ListItemText primary="Assignments"/>
                             </ListItem>
+
+                            <ListItem button onClick={() => navigate("/announcements")}>
+                                <ListItemIcon><PersonIcon/></ListItemIcon>
+                                <ListItemText primary="Announcements"/>
+                            </ListItem>
                         </List>
                     </div>
                 </Drawer>
